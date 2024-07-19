@@ -114,6 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
 LANGUAGE_CODE = 'en'
 LANGUAGES = [
     ('en', 'English'),

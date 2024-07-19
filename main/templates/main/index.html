@@ -21,7 +21,7 @@
 
     {% for product in products %}
         <ul class="product">
-           <li>{% trans "Name" %}: {{ product.name }}</li>
+           <li>{% trans "Name" %}: {{ product.name }} ({{ product.original_name }})</li>
            <li>{% trans "Price" %}: {{ product.price }}</li>
            <li>{% trans "Category" %}: {{ product.category.name }}</li>
         </ul>
