@@ -1,0 +1,19 @@
+{% load static %}
+{% load i18n %}
+<div class="language">
+    {# https://www.flaticon.com/packs/countrys-flags #}
+    {% get_current_language as LANGUAGE_CODE %}
+    <img src="{% static 'img/language/'|add:LANGUAGE_CODE|add:'.png' %}" alt="">
+    
+    <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="" />
+        <select name="language" onchange="this.form.submit()">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% for lang in LANGUAGES %}
+                <option value="{{ lang.0 }}"{% if lang.0 == LANGUAGE_CODE %}selected{% endif %}>{{ lang.1 }}</option>
+            {% endfor %}
+        </select>
+    </form>
+</div>
