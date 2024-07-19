@@ -18,11 +18,12 @@
         </select>
         <input type="submit" value="Go" />
     </form>
+
     {% for product in products %}
         <ul class="product">
-           <li>{% trans "Название" %}: {{ product.name }}</li>
-           <li>{% trans "Цена" %}: {{ product.price }}</li>
-           <li>{% trans "Категория" %}: {{ product.category.name }}</li>
+           <li>{% trans "Name" %}: {{ product.name }}</li>
+           <li>{% trans "Price" %}: {{ product.price }}</li>
+           <li>{% trans "Category" %}: {{ product.category.name }}</li>
         </ul>
     {% endfor %}
 {% endblock %}
