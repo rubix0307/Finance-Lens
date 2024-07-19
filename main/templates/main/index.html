@@ -2,5 +2,11 @@
 {% load static %}
 
 {% block main %}
-
+    {% for product in products %}
+        <ul class="product">
+           <li>Название: {{ product.name }}</li>
+           <li>Цена: {{ product.price }}</li>
+           <li>Категория: {{ product.category.name }}</li>
+        </ul>
+    {% endfor %}
 {% endblock %}
