@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy
-# Create your models here.
+
+from utils import PauseLanguage
+
 
 class ProductCategory(models.Model):
     name = models.CharField(max_length=255, verbose_name=gettext_lazy('Name'))
@@ -22,3 +24,15 @@ class Product(models.Model):
         for num, field in enumerate(self._meta.get_fields()):
             if field == search_field:
                 return num
+
+    def save(self, *args, **kwargs):
+        with PauseLanguage():
+            self.name = self.original_name
+            super(Product, self).save(*args, **kwargs)
+
+        return self
+
+
+
+    class Meta:
+        ordering = ['id']
