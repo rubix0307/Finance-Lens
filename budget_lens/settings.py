@@ -115,6 +115,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_FALLBACK_LANGUAGES = {
+    'default': (),
+    'en': (),
+    'ru': ('en',),
+    'ua': ('en',),
+}
 LANGUAGE_CODE = 'en'
 LANGUAGES = [
     ('en', 'English'),
