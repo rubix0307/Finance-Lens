@@ -1,9 +1,5 @@
-from django.shortcuts import render
-
-from main.models import Product
-
 from django.shortcuts import render, redirect
-from .models import Product, ProductCategory
+from .models import Product
 from .forms import ProductFormSet
 
 
@@ -14,6 +10,7 @@ def index(request):
         print(f'{is_valid=}')
         if is_valid:
             formset.save()
+            return redirect('index')
     else:
         queryset = Product.objects.all()
         formset = ProductFormSet(queryset=queryset)
