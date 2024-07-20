@@ -2,12 +2,12 @@
   font-family: Inter;
   --color-orange: #ff680a;
   --color-orange-lite: rgb(255 134 55 / 10%);
+
 }
 
 body {
     margin: 0;
     padding: 0;
-    min-height: 200svh;
 }
 
 header {
@@ -47,5 +47,75 @@ header {
             text-align: right;
             outline: 0;
         }
+    }
+}
+.receipt {
+    width: 100%;
+
+    & .photo {
+        width: 90%;
+        margin: 20px auto 0 auto;
+        max-height: 50svh;
+        overflow-y: scroll;
+        border-radius: 2px;
+
+        &::-webkit-scrollbar {
+            width: 0;
+        }
+        & img {
+            max-width: 100%;
+            border-radius: 9px;
+        }
+    }
+
+    & .product {
+        width: 90%;
+        margin: 0 auto;
+        border-bottom: 1px var(--color-orange) solid;
+        display: flex;
+
+        & .column {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            & input {
+                width: 100%;
+                border: none;
+                outline: none;
+                font-size: 16px;
+            }
+            & .price {
+                & input {
+                    text-align: right;
+                }
+            }
+            & select {
+                padding: 2px;
+                outline: none;
+                width: 100%;
+                border: none;
+                appearance: none;
+                background-color: transparent;
+            }
+
+            &.price {
+                width: 30%;
+                & input {
+                    text-align: right;
+                }
+            }
+        }
+
+    }
+    & button[type='submit'] {
+        width: 90%;
+        margin: 0 5% 10px 5%;
+        height: 30px;
+        border: 1px var(--color-orange) solid;
+        border-radius: 0 0 10px 10px;
+        border-top: none;
+        background-color: var(--color-orange-lite);
     }
 }
