@@ -1,9 +1,12 @@
+import time
+
 from aiogram import types
 from aiogram.types import FSInputFile
 from aiogram.utils.markdown import hlink, hpre
 
 from bot.run import bot, dp
 from GPT.functions import get_products_by_image
+from main.models import Currency, Product, ProductCategory, Receipt
 
 
 @dp.message()
@@ -22,46 +25,60 @@ async def message_handler(message: types.Message) -> None:
             await bot.send_chat_action(chat_id=message.chat.id,action='typing')
             data = get_products_by_image(image_path)
 
-            is_translation = True
-            for i in range(2):
+            currency, is_created = await Currency.objects.aget_or_create(code=data['currency'])
+            receipt = Receipt(
+                shop_name=data['shop_name'],
+                shop_address=data['shop_address'],
+                currency=currency,
+                date=time.time(),
+            )
+            await receipt.asave()
+            products = []
+            for p in data['products']:
                 try:
-                    texts = [
-                        f'Магазин: {data["shop_name"]}',
-                        f'Адрес: {hlink(data["shop_address"], "https://www.google.com/maps/search/"+str(data["shop_address"]).replace(" ", "+"))}',
-                        f'Товары:',
-                    ]
-                    space = 25
-                    for product in data['products']:
-                        row = f'ㅤ{product["name"].ljust(space, " ")} {product["price"]}'
-                        if is_translation:
-                            row += "\n" + product["name_translation"].ljust(space, " ")
-                        texts.append(hpre(row))
+                    category = await ProductCategory.objects.aget(name=p['category'])
+                except ProductCategory.DoesNotExist:
+                    category = ProductCategory(name=p['category'])
+                    await category.asave()
 
-                    texts.append(hpre(f'ㅤВсего:'.ljust(space, " ")+f' {round(data["total"], 2)} {data["currency"]}'))
+                product = Product(name=p['name'], price=p['price'], category=category, receipt=receipt)
+                await product.asave()
+                products.append(product)
 
-                    answer = await bot.send_photo(
-                        photo=FSInputFile(image_path),
-                        chat_id=message.chat.id,
-                        caption='\n'.join(texts),
-                        parse_mode='HTML',
-                    )
+            texts = [
+                f'Магазин: {receipt.shop_name}',
+                f'Адрес: {hlink(receipt.shop_address, f"https://www.google.com/maps/search/{receipt.shop_address}".replace(" ", "+"))}',
+                f'Товары:',
+            ]
+            space = 25
+            for product in products:
+                row = f'ㅤ{product.name.ljust(space, " ")} {product.price}'
+                texts.append(hpre(row))
 
-                    if answer:
-                        await message.delete()
+            total = sum(p.price for p in products)
+            texts.append(hpre(f'ㅤВсего:'.ljust(space, " ")+f' {round(total, 2)} {currency.code}'))
+
+            answer = await bot.send_photo(
+                photo=FSInputFile(image_path),
+                chat_id=message.chat.id,
+                caption='\n'.join(texts),
+                parse_mode='HTML',
+            )
+
+            if answer:
+                await message.delete()
 
 
-                    admin_id = 887832606
-                    if message.chat.id != admin_id:
-                        await bot.send_photo(
-                            photo=FSInputFile(image_path),
-                            chat_id=admin_id,
-                            caption='\n'.join(texts),
-                            parse_mode='HTML',
-                        )
-                    break
-                except Exception as ex:
-                    is_translation = False
-                    continue
+            admin_id = 887832606
+            if message.chat.id != admin_id:
+                await bot.send_photo(
+                    photo=FSInputFile(image_path),
+                    chat_id=admin_id,
+                    caption='\n'.join(texts),
+                    parse_mode='HTML',
+                )
+
+
     except Exception as ex:
         print(ex)
 

@@ -5,11 +5,13 @@ import sys
 from aiogram import Bot, Dispatcher, Router
 from dotenv import load_dotenv
 
-project_root = '/root/bot/'
-sys.path.append(project_root)
-os.chdir(project_root)
+import django
 
 load_dotenv('.env')
+django.setup()
+
+# project_root = '/root/bot/'
+
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 router = Router()
