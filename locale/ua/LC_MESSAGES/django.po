@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-19 20:46+0200\n"
+"POT-Creation-Date: 2024-07-19 22:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: .\main\models.py:6 .\main\models.py:9 .\main\templates\main\index.html:9
+#: .\main\models.py:6 .\main\models.py:12
 msgid "Name"
 msgstr "Назва"
 
-#: .\main\models.py:10 .\main\templates\main\index.html:10
+#: .\main\models.py:13
 msgid "Price"
 msgstr "Вартість"
 
-#: .\main\models.py:11 .\main\templates\main\index.html:11
+#: .\main\models.py:14
 msgid "Category"
 msgstr "Категорія"
+
+#: .\main\templates\main\receipt\index.html:24
+msgid "Save"
+msgstr "Зберегти"
