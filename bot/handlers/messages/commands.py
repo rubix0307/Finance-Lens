@@ -25,6 +25,7 @@ async def message_handler(message: types.Message) -> None:
 
             await bot.download(file, destination=image_path)
             await bot.send_chat_action(chat_id=message.chat.id,action='typing')
+
             data = get_products_by_image(image_path)
 
             currency, is_created = await Currency.objects.aget_or_create(code=data['currency'])
@@ -39,9 +40,14 @@ async def message_handler(message: types.Message) -> None:
             products = []
             for p in data['products']:
                 try:
-                    category = await ProductCategory.objects.aget(name=p['category'])
+                    category = await ProductCategory.objects.aget(name_ru=p['category_ru'])
                 except ProductCategory.DoesNotExist:
-                    category = ProductCategory(name=p['category'])
+                    category = ProductCategory(
+                        name=p['category_ru'],
+                        name_en=p['category_en'],
+                        name_ru=p['category_ru'],
+                        name_ua=p['category_ua'],
+                    )
                     await category.asave()
 
                 product = Product(
