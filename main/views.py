@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import Product
+from .models import Product, Receipt
 from .forms import ProductFormSet
 
 
 def index(request):
+    context = {}
+
     if request.method == 'POST':
         formset = ProductFormSet(request.POST)
         is_valid = formset.is_valid()
@@ -12,7 +14,11 @@ def index(request):
             formset.save()
             return redirect('index')
     else:
-        queryset = Product.objects.all()
-        formset = ProductFormSet(queryset=queryset)
+        receipt = Receipt.objects.last()
+        products = receipt.products.all()
+        formset = ProductFormSet(queryset=products)
+        context['receipt'] = receipt
 
-    return render(request, 'main/index.html', {'formset': formset})
+    context['formset'] = formset
+
+    return render(request, 'main/index.html', context=context)

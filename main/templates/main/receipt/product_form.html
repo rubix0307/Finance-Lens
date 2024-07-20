@@ -2,7 +2,7 @@
     {{ product_form.id }}
     <div class="column">
 
-        <div class="name">{{ product_form.name }}{% if product_form.instance.name|lower != product_form.instance.name_original|lower %}({{ product_form.instance.name_original }}){% endif %}</div>
+        <div class="name">{{ product_form.name }}{% if product_form.instance.name_original and product_form.instance.name|lower != product_form.instance.name_original|lower %}({{ product_form.instance.name_original }}){% endif %}</div>
         {{ product_form.category }}
     </div>
     <div class="column price">

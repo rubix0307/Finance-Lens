@@ -15,10 +15,12 @@ async def message_handler(message: types.Message) -> None:
         if message.photo or message.document:
 
             if message.photo:
-                image_path = f"budget_lens/media/bot/{message.chat.id}_{message.photo[-1].file_id}.jpg"
+                image_name = f"{message.chat.id}_{message.photo[-1].file_id}.jpg"
+                image_path = f"budget_lens/media/bot/{image_name}"
                 file = message.photo[-1]
             else:
-                image_path = f"budget_lens/media/bot/{message.chat.id}_{message.document.file_id}.jpg"
+                image_name = f"{message.chat.id}_{message.document.file_id}.jpg"
+                image_path = f"budget_lens/media/bot/{image_name}"
                 file = message.document
 
             await bot.download(file, destination=image_path)
@@ -30,6 +32,7 @@ async def message_handler(message: types.Message) -> None:
                 shop_name=data['shop_name'],
                 shop_address=data['shop_address'],
                 currency=currency,
+                photo=f'bot/{image_name}',
                 date=time.time(),
             )
             await receipt.asave()
@@ -41,7 +44,16 @@ async def message_handler(message: types.Message) -> None:
                     category = ProductCategory(name=p['category'])
                     await category.asave()
 
-                product = Product(name=p['name'], price=p['price'], category=category, receipt=receipt)
+                product = Product(
+                    name=p['name_original'].capitalize(),
+                    name_original=p['name_original'].capitalize(),
+                    name_en=p['name_en'].capitalize(),
+                    name_ru=p['name_ru'].capitalize(),
+                    name_ua=p['name_ua'].capitalize(),
+                    price=p['price'],
+                    category=category,
+                    receipt=receipt,
+                )
                 await product.asave()
                 products.append(product)
 
