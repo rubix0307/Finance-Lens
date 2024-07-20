@@ -3,12 +3,6 @@
 {% load static %}
 
 {% block main %}
+    {% include 'main/receipt/index.html' %}
 
-    {% for product in products %}
-        <ul class="product">
-           <li>{% trans "Name" %}: {{ product.name }} ({{ product.original_name }})</li>
-           <li>{% trans "Price" %}: {{ product.price }}</li>
-           <li>{% trans "Category" %}: {{ product.category.name }}</li>
-        </ul>
-    {% endfor %}
 {% endblock %}
