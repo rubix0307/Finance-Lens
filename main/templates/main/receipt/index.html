@@ -5,13 +5,22 @@
           <img src="{{ receipt.photo.url }}" alt="Receipt Photo">
     </div>
 
-    <form method="post" class="receipt">
+    <form method="post">
         {% csrf_token %}
         {{ formset.management_form }}
+        <div class="products-list">
+            {% for form in formset %}
+                {% include 'main/receipt/product_form.html' with product_form=form %}
+            {% endfor %}
 
-        {% for form in formset %}
-            {% include 'main/receipt/product_form.html' with product_form=form %}
-        {% endfor %}
+        </div>
+        <div class="product">
+            <div class="column">
+                <div class="name">Всего ({{ receipt.currency.code }})</div>
+            </div>
+            <div class="column price total" style="position:sticky; bottom: 0;"><span></span></div>
+        </div>
+
 
         <button type="submit">{% trans "Save" %}</button>
     </form>

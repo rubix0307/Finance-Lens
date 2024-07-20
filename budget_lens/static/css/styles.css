@@ -12,7 +12,7 @@ body {
 
 header {
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
     height: 50px;
     padding: 0 10px 0 0;
@@ -25,9 +25,12 @@ header {
         text-transform: uppercase;
         font-weight: bold;
         padding: 3px 7px 3px 17px;
-        color: white;
+        color: #fff3eb;
         background-color: var(--color-orange);
         border-radius: 0 10px 10px 0;
+        position: absolute;
+        top: 12px;
+        left: 0;
     }
 
     & .language {
@@ -51,23 +54,29 @@ header {
 }
 .receipt {
     width: 100%;
+    max-width: 500px;
 
     & .photo {
-        width: 90%;
+        width: 91%;
         margin: 20px auto 0 auto;
-        max-height: 50svh;
+        max-height: 30svh;
         overflow-y: scroll;
         border-radius: 2px;
+
+        background-color: white;
 
         &::-webkit-scrollbar {
             width: 0;
         }
         & img {
             max-width: 100%;
-            border-radius: 9px;
+            border-radius: 2px;
         }
     }
-
+    & .products-list {
+        height: 52svh;
+        overflow-y: scroll;
+    }
     & .product {
         width: 90%;
         margin: 0 auto;
@@ -105,10 +114,15 @@ header {
                 & input {
                     text-align: right;
                 }
+
+                &.total {
+                    text-align: right;
+                }
             }
         }
 
     }
+
     & button[type='submit'] {
         width: 90%;
         margin: 0 5% 10px 5%;
