@@ -1,0 +1,12 @@
+{% load translation_tags %}
+<div class="product">
+    {{ product_form.id }}
+    <div class="column">
+
+        <div class="name">{{ product_form.name }}{% if product_form.instance.original_name|lower != product_form.instance|get_translated_field:"name"|lower %}({{ product_form.instance.original_name }}){% endif %}  </div>
+        {{ product_form.category }}
+    </div>
+    <div class="column price">
+        {{ product_form.price }}
+    </div>
+</div>

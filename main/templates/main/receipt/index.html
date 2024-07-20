@@ -1,4 +1,6 @@
 {% load i18n %}
+{% load translation_tags %}
+
 <div class="receipt">
     <div class="photo">
          <img src="/media/bot/887832606_AgACAgIAAxkBAAIFNGaat1zcICXKjDSwpL55YSRDo2QPAAID5TEb3bDYSKPJ8QhS5pd7AQADAgADeQADNQQ.jpg" alt="">
@@ -9,16 +11,7 @@
         {{ formset.management_form }}
 
         {% for form in formset %}
-            <div class="product">
-                {{ form.id }}
-                <div class="column">
-                    <div class="name">{{ form.name }}{% if form.instance.original_name|lower != form.instance.name|lower %}({{ form.instance.original_name }}){% endif %}  </div>
-                    {{ form.category }}
-                </div>
-                <div class="column price">
-                    {{ form.price }}
-                </div>
-            </div>
+            {% include 'main/receipt/product_form.html' with product_form=form %}
         {% endfor %}
 
         <button type="submit">{% trans "Save" %}</button>
