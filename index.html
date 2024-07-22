@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Web App Data</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div id="initData"></div>
+
+    <script>
+
+        function parseAndLogTelegramWebAppData() {
+            const params = Telegram.WebView.initParams;
+
+            const queryString = params.tgWebAppData;
+            const urlParams = new URLSearchParams(queryString);
+
+            const tgWebAppData = JSON.parse(decodeURIComponent(urlParams.get('user')));
+            const chatInstance = urlParams.get('chat_instance');
+            const chatType = urlParams.get('chat_type');
+            const startParam = urlParams.get('start_param');
+            const authDate = urlParams.get('auth_date');
+            const hash = urlParams.get('hash');
+
+            const dataContainer = document.getElementById('initData');
+            const userData = {
+                id: tgWebAppData.id,
+                first_name: tgWebAppData.first_name,
+                last_name: tgWebAppData.last_name,
+                username: tgWebAppData.username,
+                language_code: tgWebAppData.language_code,
+                allows_write_to_pm: tgWebAppData.allows_write_to_pm,
+                auth_date: authDate,
+                hash: hash
+            };
+
+            for (const [key, value] of Object.entries(userData)) {
+                const p = document.createElement('p');
+                p.textContent = `${key}: ${value}`;
+                dataContainer.appendChild(p);
+            }
+        }
+
+        // Вызов функции для вывода данных
+        parseAndLogTelegramWebAppData();
+    </script>
+</body>
+</html>
