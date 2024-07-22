@@ -21,7 +21,7 @@ params = {
     'chat_type': ['private'],
     'start_param': ['kentId887832606'],
     'auth_date': ['1721681182'],
-    'hash': ['28f6e4a2f6cf82d3e0c0577efce7b8f5881cbe4c2fba0cda4307d8e4c81a7059']
+    'hash': ['28f6e4a2f6cf82d3e0c0577efce7b8f5881cbe4c2fba0cda4307d8e4c81a7059'],
 }
 
 # Извлечение и декодирование tgWebAppData
