@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block main %}
+    <div class="info" id="info">{% trans 'check_info' %}</div>
+    <script>
+        sendTelegramWebData('{% url "authenticate_web_app" %}')
+    </script>
+{% endblock %}
