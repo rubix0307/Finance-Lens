@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-19 22:35+0200\n"
+"POT-Creation-Date: 2024-07-23 01:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,18 +20,18 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\main\models.py:6 .\main\models.py:12
-msgid "Name"
-msgstr "Название"
-
-#: .\main\models.py:13
-msgid "Price"
-msgstr "Цена"
-
-#: .\main\models.py:14
-msgid "Category"
-msgstr "Категория"
-
-#: .\main\templates\main\receipt\index.html:24
-msgid "Save"
+#: .\main\templates\main\receipt\index.html:25
+msgid "receipt.save_btn_text"
 msgstr "Сохранить"
+
+#: .\telegram_auth\templates\telegram_auth\check.html:5
+msgid "check_info"
+msgstr "Мы проведем проверку вашей учетной записи, после чего вы будете перенаправлены на другую страницу"
+
+#: .\templates\403.html:5
+msgid "forbidden.caption"
+msgstr "403"
+
+#: .\templates\403.html:6
+msgid "forbidden.note"
+msgstr "У вас нет прав доступа к этому ресурсу"
