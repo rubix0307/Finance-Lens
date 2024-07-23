@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'telegram_auth',
     'main',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -152,7 +153,22 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+AUTH_USER_MODEL = 'user.CustomUser'
 
 # Bot
 BOT_TOKEN = os.getenv('BOT_TOKEN', None)
+
+
+
+# security
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Lax'
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+PASSWORD_HASHERS = [
+    'budget_lens.hashers.HybridPasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+]
