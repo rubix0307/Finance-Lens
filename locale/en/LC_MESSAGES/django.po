@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-19 15:05+0200\n"
+"POT-Creation-Date: 2024-07-23 01:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: .\main\models.py:6 .\main\models.py:9 .\main\templates\main\index.html:24
-msgid "Name"
-msgstr "Name"
 
-#: .\main\models.py:10 .\main\templates\main\index.html:25
-msgid "Price"
-msgstr "Price"
+#: .\main\templates\main\receipt\index.html:25
+msgid "receipt.save_btn_text"
+msgstr "Save"
 
-#: .\main\models.py:11 .\main\templates\main\index.html:26
-msgid "Category"
-msgstr "Category"
+#: .\telegram_auth\templates\telegram_auth\check.html:5
+msgid "check_info"
+msgstr "We do a verification of your account and then you will be redirected to another page"
+
+#: .\templates\403.html:5
+msgid "forbidden.caption"
+msgstr "403"
+
+#: .\templates\403.html:6
+msgid "forbidden.note"
+msgstr "You don't have permission to access this resource."

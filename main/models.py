@@ -18,17 +18,17 @@ class Receipt(models.Model):
         return self.shop_name
 
 class ProductCategory(models.Model):
-    name = models.CharField(max_length=255, verbose_name=gettext_lazy('Name'))
+    name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
 
 class Product(models.Model):
-    name = models.CharField(max_length=255, verbose_name=gettext_lazy('Name'))
-    name_original = models.CharField(max_length=255, verbose_name=gettext_lazy('Original'))
-    price = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=gettext_lazy('Price'))
-    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, null=True, blank=True, verbose_name=gettext_lazy('Category'))
-    receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE, related_name='products', verbose_name=gettext_lazy('Receipt'))
+    name = models.CharField(max_length=255)
+    name_original = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=20, decimal_places=2)
+    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, null=True, blank=True)
+    receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE, related_name='products')
 
     def save(self, *args, **kwargs):
         if not self.pk and not self.name_original:

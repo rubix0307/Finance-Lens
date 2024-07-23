@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .models import Product, Receipt
 from .forms import ProductFormSet
 
+def permission_denied_view(request):
+    return render(request, '403.html', status=403)
 
 def index(request):
     context = {}
