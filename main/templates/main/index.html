@@ -3,6 +3,17 @@
 {% load static %}
 
 {% block main %}
-    {% include 'main/receipt/index.html' %}
+    {% if receipts %}
+
+        {% for receipt in receipts %}
+            {% include 'main/receipt/index.html' with receipt=receipt %}
+        {% endfor %}
+
+    {% else %}
+
+        <h2>Пусто!</h2>
+        <span>Отправь фотографию чека в бот</span>
+
+    {% endif %}
 
 {% endblock %}

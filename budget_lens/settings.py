@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'modeltranslation',
+    'django_htmx',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

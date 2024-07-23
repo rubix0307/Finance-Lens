@@ -1,18 +1,22 @@
 {% load i18n %}
 
-<div class="receipt">
+<div class="receipt" id="receipt-{{ receipt.id }}"
+     {% if is_updated %}
+     	data-isUpdated="1"
+     {% endif %}
+
+>
     <div class="photo">
           <img src="{{ receipt.photo.url }}" alt="Receipt Photo">
     </div>
 
-    <form method="post">
+    <form method="post" hx-post="{% url 'index' %}" hx-target="#receipt-{{ receipt.id }}" hx-swap="outerHTML">
         {% csrf_token %}
-        {{ formset.management_form }}
+        {{ receipt.formset.management_form }}
         <div class="products-list">
-            {% for form in formset %}
+            {% for form in receipt.formset %}
                 {% include 'main/receipt/product_form.html' with product_form=form %}
             {% endfor %}
-
         </div>
         <div class="product">
             <div class="column">
@@ -21,7 +25,10 @@
             <div class="column price total" style="position:sticky; bottom: 0;"><span></span></div>
         </div>
 
-
-        <button type="submit">{% trans "receipt.save_btn_text" %}</button>
+        <button
+            type="submit"
+            data-savedText="{% trans "receipt.updated_btn_text" %}"
+            data-defaultText="{% trans "receipt.save_btn_text" %}"
+        >{% trans "receipt.save_btn_text" %}</button>
     </form>
 </div>

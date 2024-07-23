@@ -55,6 +55,7 @@ header {
 .receipt {
     width: 100%;
     max-width: 500px;
+    margin-bottom: 70px;
 
     & .photo {
         width: 91%;
@@ -74,7 +75,7 @@ header {
         }
     }
     & .products-list {
-        height: 52svh;
+        max-height: 52svh;
         overflow-y: scroll;
     }
     & .product {
@@ -131,5 +132,29 @@ header {
         border-radius: 0 0 10px 10px;
         border-top: none;
         background-color: var(--color-orange-lite);
+
+        &.btn-updated {
+            animation-name: backgroundColorChange;
+            animation-duration: 3s;
+        }
     }
+}
+
+
+
+@keyframes backgroundColorChange {
+  0% {
+      color: white;
+      background-color: green;
+      border-color: green;
+  }
+  99% {
+      color: white;
+      background-color: green;
+      border-color: green;
+  }
+  100% {
+      color: initial;
+      background-color: initial;
+  }
 }
