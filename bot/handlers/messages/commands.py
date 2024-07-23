@@ -3,6 +3,7 @@ import time
 from aiogram import types
 from aiogram.types import FSInputFile
 from aiogram.utils.markdown import hlink, hpre
+from django.contrib.auth import get_user_model
 
 from bot.run import bot, dp
 from GPT.functions import get_products_by_image
@@ -28,6 +29,16 @@ async def message_handler(message: types.Message) -> None:
 
             data = get_products_by_image(image_path)
 
+            user, created = await get_user_model().objects.aget_or_create(
+                telegram_id=message.from_user.id,
+                defaults={
+                    'first_name': message.from_user.first_name,
+                    'language_code': message.from_user.language_code,
+                    'last_name': message.from_user.last_name,
+                    'username': message.from_user.username,
+                }
+            )
+
             currency, is_created = await Currency.objects.aget_or_create(code=data['currency'])
             receipt = Receipt(
                 shop_name=data['shop_name'],
@@ -35,6 +46,7 @@ async def message_handler(message: types.Message) -> None:
                 currency=currency,
                 photo=f'bot/{image_name}',
                 date=time.time(),
+                owner=user,
             )
             await receipt.asave()
             products = []
