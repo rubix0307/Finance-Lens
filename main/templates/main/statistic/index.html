@@ -1,0 +1,28 @@
+<div class="statistic">
+    {% for data in statistic %}
+    	<div class="date">{{ data.date }}</div>
+
+
+            {% for category_data in data.categories %}
+                <ul>
+                    <div class="name">{{ category_data.name }}</div>
+                    {% for currency in category_data.value %}
+                        <li>{{ currency.name }}: {{ currency.value|floatformat:2 }}</li>
+                    {% endfor %}
+                </ul>
+
+
+            {% endfor %}
+
+
+        <ul>
+            <div class="name">Total:</div>
+            {% for currency in data.total %}
+                <li>{{ currency.name }}: {{ currency.value|floatformat:2 }}</li>
+            {% endfor %}
+        </ul>
+
+
+    {% endfor %}
+
+</div>

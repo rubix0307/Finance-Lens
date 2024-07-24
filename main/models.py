@@ -11,7 +11,7 @@ class Receipt(models.Model):
     shop_name = models.CharField(max_length=255)
     shop_address = models.CharField(max_length=1024)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
-    date = models.IntegerField()
+    date = models.DateTimeField()
     photo = models.ImageField(upload_to='bot/', null=True, blank=True, max_length=1024)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     # TODO Add ForeignKey to family group

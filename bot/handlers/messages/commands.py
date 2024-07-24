@@ -1,3 +1,4 @@
+import datetime
 import time
 
 from aiogram import types
@@ -45,7 +46,7 @@ async def message_handler(message: types.Message) -> None:
                 shop_address=data['shop_address'],
                 currency=currency,
                 photo=f'bot/{image_name}',
-                date=time.time(),
+                date=datetime.datetime.fromtimestamp(time.time()),
                 owner=user,
             )
             await receipt.asave()

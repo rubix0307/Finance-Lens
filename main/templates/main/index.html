@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block main %}
+    {% include 'main/statistic/index.html' with statistic=monthly_expenses %}
     {% if receipts %}
 
         {% for receipt in receipts %}

@@ -1,15 +1,19 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
-from .models import Product, Receipt
+from .models import Receipt
 from .forms import ProductFormSet
+from .statistic import get_monthly_expenses
+
 
 def permission_denied_view(request):
     return render(request, '403.html', status=403)
 
+
 @login_required
 def index(request):
-    context = {}
+    monthly_expenses = get_monthly_expenses()
+    context = {'monthly_expenses':monthly_expenses}
 
     if request.method == 'POST':
 

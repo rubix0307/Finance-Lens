@@ -138,7 +138,7 @@ LOCALE_PATHS = [
 USE_I18N = True
 
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Rome'
 
 USE_TZ = True
 
