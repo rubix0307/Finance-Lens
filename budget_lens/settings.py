@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+
+from django.urls import reverse_lazy
 from dotenv import load_dotenv
 
 load_dotenv('.env')
@@ -155,6 +157,8 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'user.CustomUser'
+LOGIN_URL=reverse_lazy('403')
+LOGIN_REDIRECT_URL=reverse_lazy('403')
 
 # Bot
 BOT_TOKEN = os.getenv('BOT_TOKEN', None)

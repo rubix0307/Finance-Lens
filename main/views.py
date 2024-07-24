@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django_htmx.middleware import HtmxMiddleware
+from django.contrib.auth.decorators import login_required
 
 from .models import Product, Receipt
 from .forms import ProductFormSet
@@ -7,6 +7,7 @@ from .forms import ProductFormSet
 def permission_denied_view(request):
     return render(request, '403.html', status=403)
 
+@login_required
 def index(request):
     context = {}
 
