@@ -12,7 +12,7 @@ def permission_denied_view(request):
 
 @login_required
 def index(request):
-    monthly_expenses = get_monthly_expenses()
+    monthly_expenses = get_monthly_expenses(request.user)
     context = {'monthly_expenses':monthly_expenses}
 
     if request.method == 'POST':
