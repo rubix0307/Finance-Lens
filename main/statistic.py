@@ -20,9 +20,9 @@ class Statistic:
     categories: list[Value]
     total: list[Value]
 
-def get_monthly_expenses() -> list[Statistic]:
+def get_monthly_expenses(user) -> list[Statistic]:
     # Группировка данных по месяцам с использованием TruncMonth
-    receipts = Receipt.objects.annotate(month=TruncMonth('date'))
+    receipts = Receipt.objects.filter(owner=user).annotate(month=TruncMonth('date'))
 
     # Структура для хранения результатов
     monthly_expenses = defaultdict(lambda: {'total_by_currency': defaultdict(float),
