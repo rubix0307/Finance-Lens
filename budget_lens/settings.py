@@ -169,11 +169,15 @@ BOT_TOKEN = os.getenv('BOT_TOKEN', None)
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 if not DEBUG:
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-
+    pass
 PASSWORD_HASHERS = [
     'budget_lens.hashers.HybridPasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+]
+CSRF_TRUSTED_ORIGINS = [
+    'https://finance-lens.online',
+    'https://www.finance-lens.online',
 ]

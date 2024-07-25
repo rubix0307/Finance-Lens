@@ -2,7 +2,7 @@
 <!doctype html>
 <html lang="en">
     {% include 'inc/head.html'%}
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     {% include 'inc/header.html'%}
 
     <main>
