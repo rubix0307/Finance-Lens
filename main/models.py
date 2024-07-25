@@ -8,9 +8,9 @@ class Currency(models.Model):
     code = models.CharField(max_length=3)
 
 class Receipt(models.Model):
-    shop_name = models.CharField(max_length=255)
-    shop_address = models.CharField(max_length=1024)
-    currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
+    shop_name = models.CharField(max_length=255, null=True, blank=True)
+    shop_address = models.CharField(max_length=1024, null=True, blank=True)
+    currency = models.ForeignKey(Currency, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateTimeField()
     photo = models.ImageField(upload_to='bot/', null=True, blank=True, max_length=1024)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
