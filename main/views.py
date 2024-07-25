@@ -27,7 +27,7 @@ def index(request):
             receipt.formset = formset
             return render(request, 'main/receipt/index.html', context={'receipt': receipt, 'is_updated': True})
     else:
-        receipts = Receipt.objects.filter(owner=request.user).order_by('-id').prefetch_related('products')[:100]
+        receipts = Receipt.objects.filter(owner=request.user).order_by('-date', '-id').prefetch_related('products')[:100]
 
         for receipt in receipts:
             receipt.formset = ProductFormSet(queryset=receipt.products.all())
