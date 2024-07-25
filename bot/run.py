@@ -8,9 +8,12 @@ from dotenv import load_dotenv
 import django
 
 load_dotenv('.env')
+try:
+    sys.path.append('/root/django/budget_lens')
+    os.chdir('/root/django/budget_lens')
+except FileNotFoundError:
+    pass
 django.setup()
-
-# project_root = '/root/bot/'
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
