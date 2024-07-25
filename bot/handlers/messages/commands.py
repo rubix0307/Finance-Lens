@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 import time
 
@@ -9,6 +10,7 @@ from django.contrib.auth import get_user_model
 from dateutil import parser
 
 from bot.run import bot, dp
+from bot.utils.action import BotActionIndicator
 from GPT.functions import get_products_by_image
 from main.models import Currency, Product, ProductCategory, Receipt
 
@@ -95,51 +97,51 @@ async def save_message_media(message: types.Message):
 @dp.message()
 async def message_handler(message: types.Message) -> None:
     try:
-        if message.photo or message.document:
-            message_media = await save_message_media(message)
+        async with BotActionIndicator(bot, chat_id=message.chat.id):
+            if message.photo or message.document:
+                message_media = await save_message_media(message)
 
-            if message_media:
-                image_name, image_path, *_ = await save_message_media(message)
-                receipt = await parse_receipt(message, image_path, image_name)
-                await bot.send_chat_action(chat_id=message.chat.id,action='typing')
-                texts = [
-                    'Фото было обработано'
-                ]
-                if receipt.shop_name and receipt.shop_address:
-                    texts += [
-                        f'Магазин: {receipt.shop_name}',
-                        f'Адрес: {hlink(receipt.shop_address, f"https://www.google.com/maps/search/{receipt.shop_address}".replace(" ", "+"))}',
+                if message_media:
+                    image_name, image_path, *_ = await save_message_media(message)
+                    receipt = await parse_receipt(message, image_path, image_name)
+                    texts = [
+                        'Фото было обработано'
                     ]
+                    if receipt.shop_name and receipt.shop_address:
+                        texts += [
+                            f'Магазин: {receipt.shop_name}',
+                            f'Адрес: {hlink(receipt.shop_address, f"https://www.google.com/maps/search/{receipt.shop_address}".replace(" ", "+"))}',
+                        ]
 
-                builder = InlineKeyboardBuilder()
-                builder.row(InlineKeyboardButton(
-                    text="Смотреть чек",
-                    web_app=WebAppInfo(url="https://finance-lens.online/telegram-auth/web-app/")
-                ))
-                answer = await bot.send_photo(
-                    photo=FSInputFile(image_path),
-                    chat_id=message.chat.id,
-                    caption='\n'.join(texts),
-                    parse_mode='HTML',
-                    reply_markup=builder.as_markup(),
-                )
-
-                if answer:
-                    await message.delete()
-
-
-                admin_id = 887832606
-                if message.chat.id != admin_id:
-                    await bot.send_photo(
+                    builder = InlineKeyboardBuilder()
+                    builder.row(InlineKeyboardButton(
+                        text="Смотреть чек",
+                        web_app=WebAppInfo(url="https://finance-lens.online/telegram-auth/web-app/")
+                    ))
+                    answer = await bot.send_photo(
                         photo=FSInputFile(image_path),
-                        chat_id=admin_id,
+                        chat_id=message.chat.id,
                         caption='\n'.join(texts),
                         parse_mode='HTML',
+                        reply_markup=builder.as_markup(),
                     )
+
+                    if answer:
+                        await message.delete()
+
+
+                    admin_id = 887832606
+                    if message.chat.id != admin_id:
+                        await bot.send_photo(
+                            photo=FSInputFile(image_path),
+                            chat_id=admin_id,
+                            caption='\n'.join(texts),
+                            parse_mode='HTML',
+                        )
+                else:
+                    await message.answer('Произошла ошибка в сохранении медиа файла, проверьте что это именно фото.')
             else:
-                await message.answer('Произошла ошибка в сохранении медиа файла, проверьте что это именно фото.')
-        else:
-            await message.answer('Вы должны отправить фотографию чека')
+                await message.answer('Вы должны отправить фотографию чека')
 
     except Exception as ex:
         print(ex)
