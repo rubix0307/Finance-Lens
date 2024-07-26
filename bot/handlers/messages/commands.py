@@ -39,8 +39,8 @@ async def parse_receipt(message: types.Message, image_path, image_name) -> bool 
         date = datetime.datetime.fromtimestamp(time.time())
 
     receipt = Receipt(
-        shop_name=data['shop_name'],
-        shop_address=data['shop_address'],
+        shop_name=data.get('shop_name'),
+        shop_address=data.get('shop_address'),
         currency=currency,
         photo=f'bot/{image_name}',
         date=date,
@@ -48,7 +48,7 @@ async def parse_receipt(message: types.Message, image_path, image_name) -> bool 
     )
     await receipt.asave()
     products = []
-    for p in data['products']:
+    for p in data.get('products',[]):
         try:
             try:
                 category = await ProductCategory.objects.aget(name_ru=p['category_ru'])
@@ -104,6 +104,12 @@ async def message_handler(message: types.Message) -> None:
                 if message_media:
                     image_name, image_path, *_ = await save_message_media(message)
                     receipt = await parse_receipt(message, image_path, image_name)
+
+                    if not receipt:
+                        await message.answer('Произошла ошибка в обработке медиа файла.')
+                        return
+
+
                     texts = [
                         'Фото было обработано'
                     ]
