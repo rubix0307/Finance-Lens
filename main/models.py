@@ -1,11 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.utils.translation import gettext_lazy
-
 
 
 class Currency(models.Model):
     code = models.CharField(max_length=3)
+    code = models.CharField(max_length=3, unique=True)
 
 class Receipt(models.Model):
     shop_name = models.CharField(max_length=255, null=True, blank=True)
