@@ -53,18 +53,30 @@ header {
     }
 }
 .receipt {
+    --background-color: #f7f5f5;
+
     width: 100%;
     max-width: 500px;
     margin-bottom: 70px;
+    background-color: var(--background-color);
 
+    & .menu {
+        width: 90%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction:row;
+        justify-content: end;
+        background-color: var(--background-color);
+        padding: 5px 0;
+    }
     & .photo {
         width: 91%;
-        margin: 20px auto 0 auto;
+        margin: 0 auto;
         max-height: 30svh;
         overflow-y: scroll;
         border-radius: 2px;
 
-        background-color: white;
+        background-color: var(--background-color);
 
         &::-webkit-scrollbar {
             width: 0;
@@ -72,6 +84,7 @@ header {
         & img {
             max-width: 100%;
             border-radius: 2px;
+            background-color: var(--background-color);
         }
     }
     & .products-list {
@@ -83,6 +96,7 @@ header {
         margin: 0 auto;
         border-bottom: 1px var(--color-orange) solid;
         display: flex;
+        background-color: var(--background-color);
 
         & .column {
             width: 100%;
@@ -91,6 +105,7 @@ header {
             justify-content: center;
 
             & input {
+                background-color: var(--background-color);
                 width: 100%;
                 border: none;
                 outline: none;
@@ -111,6 +126,7 @@ header {
             }
 
             &.price {
+                background-color: var(--background-color);
                 width: 30%;
                 & input {
                     text-align: right;

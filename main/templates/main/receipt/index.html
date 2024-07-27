@@ -6,6 +6,20 @@
      {% endif %}
 
 >
+    <div class="menu">
+        <div class="del">
+            <div class="del-btn" onclick="toggleConfirm(this)">Удалить</div>
+            <div
+                class="del-btn confirm"
+                style="display: none;"
+                hx-post="{% url 'delete_receipt' receipt_id=receipt.id %}"
+                hx-trigger="click"
+                hx-swap="none"
+                hx-on="htmx:afterOnLoad: removeReceipt(this)"
+            >Подтверждаю удаление</div>
+        </div>
+    </div>
+
     <div class="photo">
           <img src="{{ receipt.photo.url }}" alt="Receipt Photo">
     </div>

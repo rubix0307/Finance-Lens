@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 
 from .models import Receipt
@@ -34,3 +35,11 @@ def index(request):
         context['receipts'] = receipts
 
     return render(request, 'main/index.html', context=context)
+
+@login_required
+def delete_receipt(request, receipt_id):
+    if request.method == 'POST':
+        receipt = get_object_or_404(Receipt, id=receipt_id)
+        receipt.delete()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'failed'}, status=400)
