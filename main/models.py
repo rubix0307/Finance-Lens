@@ -3,8 +3,16 @@ from django.db import models
 
 
 class Currency(models.Model):
-    code = models.CharField(max_length=3)
     code = models.CharField(max_length=3, unique=True)
+
+
+class CurrencyRateHistory(models.Model):
+    currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
+    per_usd = models.DecimalField(max_digits=14, decimal_places=7)
+    date = models.DateField()
+
+    class Meta:
+        unique_together = ('currency', 'per_usd', 'date')
 
 class Receipt(models.Model):
     shop_name = models.CharField(max_length=255, null=True, blank=True)
