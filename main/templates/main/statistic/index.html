@@ -1,3 +1,4 @@
+{% load i18n %}
 <div class="statistic">
     {% for data in statistic %}
     	<div class="date">{{ data.date }}</div>
@@ -16,7 +17,7 @@
 
 
         <ul>
-            <div class="name">Total:</div>
+            <div class="name">{% trans "statistic.total" %}:</div>
             {% for currency in data.total %}
                 <li>{{ currency.name }}: {{ currency.value|floatformat:2 }}</li>
             {% endfor %}

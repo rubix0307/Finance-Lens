@@ -8,7 +8,7 @@
 >
     <div class="menu">
         <div class="del">
-            <div class="del-btn" onclick="toggleConfirm(this)">Удалить</div>
+            <div class="del-btn" onclick="toggleConfirm(this)">{% trans "receipt.menu.deletion" %}</div>
             <div
                 class="del-btn confirm"
                 style="display: none;"
@@ -16,7 +16,7 @@
                 hx-trigger="click"
                 hx-swap="none"
                 hx-on="htmx:afterOnLoad: removeReceipt(this)"
-            >Подтверждаю удаление</div>
+            >{% trans "receipt.menu.confirm_deletion" %}</div>
         </div>
     </div>
 
@@ -34,7 +34,7 @@
         </div>
         <div class="product">
             <div class="column">
-                <div class="name">Всего ({{ receipt.currency.code }})</div>
+                <div class="name">{% trans "receipt.product-list.total" %} ({{ receipt.currency.code }})</div>
             </div>
             <div class="column price total" style="position:sticky; bottom: 0;"><span></span></div>
         </div>

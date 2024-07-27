@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-23 22:25+0200\n"
+"POT-Creation-Date: 2024-07-27 23:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: .\main\templates\main\receipt\index.html:30
+#: .\main\templates\main\receipt\index.html:11
+msgid "receipt.menu.deletion"
+msgstr "Видалити"
+
+#: .\main\templates\main\receipt\index.html:19
+msgid "receipt.menu.confirm_deletion"
+msgstr "Підтвердити видалення"
+
+#: .\main\templates\main\receipt\index.html:37
+msgid "receipt.product-list.total"
+msgstr "Всього"
+
+#: .\main\templates\main\receipt\index.html:44
 msgid "receipt.updated_btn_text"
 msgstr "Оновлено!"
 
-#: .\main\templates\main\receipt\index.html:31
-#: .\main\templates\main\receipt\index.html:32
+#: .\main\templates\main\receipt\index.html:45
+#: .\main\templates\main\receipt\index.html:46
 msgid "receipt.save_btn_text"
 msgstr "Зберегти"
+
+#: .\main\templates\main\statistic\index.html:20
+msgid "statistic.total"
+msgstr "Всього"
 
 #: .\telegram_auth\templates\telegram_auth\check.html:5
 msgid "check_info"
