@@ -38,6 +38,11 @@ async def parse_receipt(message: types.Message, image_path, image_name) -> bool 
     except TypeError as e:
         date = datetime.datetime.fromtimestamp(time.time())
 
+    today = datetime.datetime.today()
+    if date > today:
+        date = today
+
+
     receipt = Receipt(
         shop_name=data.get('shop_name'),
         shop_address=data.get('shop_address'),
