@@ -1,3 +1,5 @@
+import time
+
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
@@ -21,7 +23,10 @@ def index(request):
         is_valid = formset.is_valid()
         print(f'{is_valid=}')
         if is_valid:
-            formset.save()
+
+            for form in formset:
+                instance = form.save(commit=False)
+                instance.save()
 
             receipt = formset.cleaned_data[0]['id'].receipt
             receipt.formset = formset

@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-
+from django.core.cache import cache
+from scraper.currency.scraper import CurrencyScraper
 
 class Currency(models.Model):
     code = models.CharField(max_length=3, unique=True)
@@ -13,6 +14,7 @@ class CurrencyRateHistory(models.Model):
 
     class Meta:
         unique_together = ('currency', 'per_usd', 'date')
+        get_latest_by = ['date']
 
 class Receipt(models.Model):
     shop_name = models.CharField(max_length=255, null=True, blank=True)
@@ -36,6 +38,7 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     name_original = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=20, decimal_places=2)
+    price_usd = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, null=True, blank=True)
     receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE, related_name='products')
 
@@ -43,8 +46,33 @@ class Product(models.Model):
         if not self.pk and not self.name_original:
             self.name_original = self.name
 
+        self.price_usd = self.price / self.get_usd_conversion_rate()
+
         super(Product, self).save(*args, **kwargs)
         return self
+
+    def get_usd_conversion_rate(self):
+        cache_key = f'{self.get_usd_conversion_rate.__name__}_{self.receipt.currency.code}_{self.receipt.date.strftime("%Y-%m-%d")}'
+
+        cached_rate = cache.get(cache_key)
+        if cached_rate is not None:
+            return cached_rate
+
+        rate = None
+        try:
+            rate = CurrencyRateHistory.objects.filter(currency=self.receipt.currency, date=self.receipt.date).latest()
+        except CurrencyRateHistory.DoesNotExist:
+            pass
+
+        if not rate or ((rate.date.year, rate.date.month, rate.date.day) != (self.receipt.date.year, self.receipt.date.month, self.receipt.date.day)):
+            scraper = CurrencyScraper(currency_symbol='USD', date=self.receipt.date)
+            scraper.write_rate_history()
+
+            rate = CurrencyRateHistory.objects.filter(currency=self.receipt.currency).latest()
+
+        cache.set(cache_key, rate.per_usd, timeout=20) # TODO update timeout
+        return rate.per_usd
+
 
     class Meta:
         ordering = ['id']

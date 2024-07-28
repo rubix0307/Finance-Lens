@@ -3,9 +3,9 @@ from datetime import datetime
 
 import requests
 from bs4 import BeautifulSoup
+from django.apps import apps
 from django.db.models import QuerySet
 from fake_useragent import UserAgent
-from main.models import Currency, CurrencyRateHistory
 from django.db import IntegrityError, transaction
 
 @dataclass
@@ -74,6 +74,7 @@ class CurrencyScraper:
         return data
 
     def update_or_create_currencies(self, raw_data_list: list[RawCurrencyData]):
+        Currency = apps.get_model('main', 'Currency')
 
         if not raw_data_list:
             raw_data_list = self.get_raw_data()
@@ -92,6 +93,9 @@ class CurrencyScraper:
             return False
 
     def write_rate_history(self) -> QuerySet:
+        Currency = apps.get_model('main', 'Currency')
+        CurrencyRateHistory = apps.get_model('main', 'CurrencyRateHistory')
+
         raw_data_list = self.get_raw_data()
         self.update_or_create_currencies(raw_data_list)
 
