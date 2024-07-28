@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.core.cache import cache
@@ -46,7 +48,7 @@ class Product(models.Model):
         if not self.pk and not self.name_original:
             self.name_original = self.name
 
-        self.price_usd = self.price / self.get_usd_conversion_rate()
+        self.price_usd = Decimal(self.price or 0) / (self.get_usd_conversion_rate() or Decimal(1))
 
         super(Product, self).save(*args, **kwargs)
         return self
