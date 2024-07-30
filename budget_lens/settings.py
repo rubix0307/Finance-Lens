@@ -164,27 +164,29 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'user.CustomUser'
-LOGIN_URL=reverse_lazy('403')
-LOGIN_REDIRECT_URL=reverse_lazy('403')
+LOGIN_URL = reverse_lazy('403')
+LOGIN_REDIRECT_URL = reverse_lazy('403')
 
 # Bot
 BOT_TOKEN = os.getenv('BOT_TOKEN', None)
 
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # security
-SESSION_COOKIE_HTTPONLY = True
-CSRF_COOKIE_HTTPONLY = True
-CSRF_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
 if not DEBUG:
-    pass
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_SAMESITE = 'Lax'
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+    CSRF_TRUSTED_ORIGINS = [
+        'https://finance-lens.online',
+        'https://www.finance-lens.online',
+    ]
+
 PASSWORD_HASHERS = [
     'budget_lens.hashers.HybridPasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-]
-CSRF_TRUSTED_ORIGINS = [
-    'https://finance-lens.online',
-    'https://www.finance-lens.online',
 ]

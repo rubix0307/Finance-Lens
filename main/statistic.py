@@ -1,6 +1,4 @@
-import datetime
 from collections import defaultdict
-from dataclasses import dataclass
 
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
@@ -8,54 +6,49 @@ from django.db.models.functions import TruncMonth
 from main.models import ProductCategory, Receipt
 
 
+def get_user_statistic():
+    receipts = Receipt.objects.filter(date__isnull=False).annotate(
+        month=TruncMonth('date')
+    ).prefetch_related('products__category', 'currency').values(
+        'month',
+        'products__category',
+        'products__price_usd',
+        'currency__code'
+    ).annotate(
+        total_usd=Sum('products__price_usd'),
+        currency_sum=Sum('products__price')
+    )
 
-@dataclass
-class Value:
-    name: str
-    value: str|float
+    result = defaultdict(
+        lambda: defaultdict(lambda: {'category': None, 'total_usd': 0, 'currencies': defaultdict(int)}))
 
-@dataclass
-class Statistic:
-    date: str
-    categories: list[Value]
-    total: list[Value]
+    categories_cache = {}
 
-def get_monthly_expenses(user) -> list[Statistic]:
-    # Группировка данных по месяцам с использованием TruncMonth
-    receipts = Receipt.objects.filter(owner=user).annotate(month=TruncMonth('date'))
+    for item in receipts:
+        month = item['month'].strftime('%Y-%m')
+        category_id = item['products__category']
+        currency = item['currency__code']
+        total_usd = item['total_usd'] or 0
+        currency_sum = item['currency_sum'] or 0
 
-    # Структура для хранения результатов
-    monthly_expenses = defaultdict(lambda: {'total_by_currency': defaultdict(float),
-                                            'categories_by_currency': defaultdict(lambda: defaultdict(float))})
+        if category_id not in categories_cache:
+            categories_cache[category_id] = ProductCategory.objects.get(id=category_id)
 
-    for receipt in receipts:
-        month = receipt.month.strftime("%Y-%m")
-        currency_code = receipt.currency.code
+        category_obj = categories_cache[category_id]
 
-        # Суммарное потраченное количество денег (группируя по currency)
-        total_spent = receipt.products.aggregate(total=Sum('price'))['total'] or 0
-        monthly_expenses[month]['total_by_currency'][currency_code] += float(total_spent)
+        result[month][category_id]['category'] = category_obj
+        result[month][category_id]['total_usd'] += total_usd
+        result[month][category_id]['currencies'][currency] += currency_sum
 
-        # Потраченное количество денег по категориям (группируя по currency)
-        category_spent = receipt.products.values('category').annotate(total=Sum('price'))
+    answer = []
+    for month, categories in result.items():
+        d = {'month': month}
+        d['categories'] = {
+            data['category'].name: {
+                'total_usd': data['total_usd'],
+                'currencies': data['currencies']
+            } for category_id, data in categories.items()
+        }
+        answer.append(d)
 
-        for category in category_spent:
-            category_obj = ProductCategory.objects.get(pk=category['category'])
-            spent = category['total'] or 0
-            monthly_expenses[month]['categories_by_currency'][category_obj][currency_code] += float(spent)
-
-    statistics = []
-
-    for month, data in monthly_expenses.items():
-        total = [Value(name=currency, value=total_spent) for currency, total_spent in
-                 data['total_by_currency'].items()]
-
-        categories = []
-        for category, currencies in data['categories_by_currency'].items():
-            category_values = [Value(name=currency, value=spent) for currency, spent in currencies.items()]
-            categories.append(Value(name=category, value=category_values))
-
-        statistics.append(Statistic(date=month, categories=categories, total=total))
-
-    return statistics
-
+    return answer
