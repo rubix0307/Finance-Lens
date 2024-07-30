@@ -23,14 +23,26 @@ async function drawStatisticChart(dataUrl, container, title) {
         // Create column chart
         var chart = anychart.column();
         chart.animation(true);
-        chart.padding(10);
+        chart.padding(10, 5, 5, -2);
 
-        chart.yAxis(false);
-        chart.xAxis().title('Month').stroke('black', 2);
+        chart.yAxis(true);
+        chart.yAxis().stroke('black', 1);
+        chart.yAxis().labels().format("${%Value}");
+
+        chart.xAxis().title('Month').stroke('black', 1);
         chart.xAxis().ticks().enabled(false);
 
         // Force chart to stack values by Y scale
-        chart.yScale().stackMode('value');
+        chart.yScale().stackMode("value");
+
+
+        chart.labels().enabled(true);
+        chart.labels().format(function() {
+            return this.seriesName;
+        });
+        chart.labels().position('center');
+        chart.labels().padding(4);
+        chart.labels().textOverflow('ellipsis');
 
         if (title) {
             chart.title(title);
@@ -41,8 +53,8 @@ async function drawStatisticChart(dataUrl, container, title) {
             .dataArea()
             .background()
             .enabled(true)
-            .fill('#456')
-            .corners(25, 25, 0, 0);
+            .fill('#f7f5f5')
+            .corners(5, 5, 0, 0);
 
         // Set grid settings
         chart
@@ -87,8 +99,8 @@ async function drawStatisticChart(dataUrl, container, title) {
                 var currencies = this.getData('currencies');
                 var currencyText = Object.keys(currencies).map(function(key) {
                     return key + ": " + currencies[key];
-                }).join(", ");
-                return this.getData('category') + "\n" + currencyText;
+                }).join("\n");
+                return this.getData('category') + "\n" + currencyText + "\n------------"+ "\n" + `≈ $${this.value}`;
             });
         }
 
@@ -104,14 +116,20 @@ async function drawStatisticChart(dataUrl, container, title) {
             .legend()
             .enabled(true)
             .fontSize(13)
-            .fontColor('white')
+            .fontColor('#000000')
             .positionMode('inside')
             .margin({ top: 15 });
 
-        chart.container(container);
 
-        // Initiate chart drawing
+
+        chart.container(container);
         chart.draw();
+
+        var legend = chart.legend();
+        legend.positionMode("outside");
+        legend.itemsLayout("horizontalExpandable");
+        legend.position("bottom");
+
     });
 
 

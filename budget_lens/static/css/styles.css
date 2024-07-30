@@ -157,9 +157,11 @@ header {
 }
 #statistic-chart {
     width: 100%;
-    height: 50vh;
+    height: min(70vh, 700px);
 }
-
+.anychart-credits {
+    display: none;
+}
 
 @keyframes backgroundColorChange {
   0% {
