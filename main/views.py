@@ -13,7 +13,7 @@ def permission_denied_view(request):
 
 @login_required
 def get_user_stats(request):
-    stats = get_user_statistic()
+    stats = get_user_statistic(request.user)
     return JsonResponse(stats, safe=False, json_dumps_params={'ensure_ascii': False, 'indent': 4})
 
 

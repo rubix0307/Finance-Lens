@@ -6,10 +6,10 @@ from django.db.models.functions import TruncMonth
 from main.models import ProductCategory, Receipt
 
 
-def get_user_statistic():
+def get_user_statistic(user):
     receipts = Receipt.objects.filter(date__isnull=False).annotate(
         month=TruncMonth('date')
-    ).prefetch_related('products__category', 'currency').values(
+    ).filter(owner=user).prefetch_related('products__category', 'currency').values(
         'month',
         'products__category',
         'products__price_usd',
