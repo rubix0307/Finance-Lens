@@ -181,10 +181,10 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
-    CSRF_TRUSTED_ORIGINS = [
-        'https://finance-lens.online',
-        'https://www.finance-lens.online',
-    ]
+CSRF_TRUSTED_ORIGINS = [
+    'https://finance-lens.online',
+    'https://www.finance-lens.online',
+]
 
 PASSWORD_HASHERS = [
     'budget_lens.hashers.HybridPasswordHasher',
