@@ -21,8 +21,9 @@ router = Router()
 bot = Bot(BOT_TOKEN)
 dp = Dispatcher()
 
+
 async def main() -> None:
-    await dp.start_polling(bot)
+    await dp.start_polling(bot, polling_timeout=180)
 
 if __name__ == "__main__":
     from handlers import dp
