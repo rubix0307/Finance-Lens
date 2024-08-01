@@ -75,6 +75,6 @@ def get_products_by_image(image_path):
     )
 
     data = json.loads(response.choices[0].message.content)
-    data['total'] = sum([i['price'] for i in data.get('products',[]) if type(i['price']) in [int, float]])
+    data['total'] = sum([i['price'] for i in data.get('products', []) if type(i['price']) in [int, float]])
 
     return data if data.get('is_recipe') else {}
