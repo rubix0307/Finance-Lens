@@ -103,7 +103,7 @@ async def save_message_media(message: types.Message):
 @dp.message()
 async def message_handler(message: types.Message) -> None:
     try:
-        async with BotActionIndicator(bot, chat_id=message.chat.id):
+        async with BotActionIndicator(chat_id=message.chat.id, delay=5):
             if message.photo or message.document:
                 message_media = await save_message_media(message)
 
