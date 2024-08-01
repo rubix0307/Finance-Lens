@@ -111,7 +111,10 @@ async def message_handler(message: types.Message) -> None:
                     receipt = await parse_receipt(message, image_path, image_name)
 
                     if not receipt:
-                        await message.answer('Произошла ошибка в обработке медиа файла.')
+                        await bot.send_message(
+                            chat_id=message.chat.id,
+                            text='Произошла ошибка в обработке медиа файла.'
+                        )
                         return
 
 
@@ -126,7 +129,7 @@ async def message_handler(message: types.Message) -> None:
 
                     builder = InlineKeyboardBuilder()
                     builder.row(InlineKeyboardButton(
-                        text="Смотреть чек",
+                        text="Смотреть чеки",
                         web_app=WebAppInfo(url="https://finance-lens.online/telegram-auth/web-app/")
                     ))
                     answer = await bot.send_photo(
@@ -138,8 +141,10 @@ async def message_handler(message: types.Message) -> None:
                     )
 
                     if answer:
-                        await message.delete()
-
+                        await bot.delete_message(
+                            chat_id=message.chat.id,
+                            message_id=message.message_id,
+                        )
 
                     admin_id = 887832606
                     if message.chat.id != admin_id:
@@ -148,11 +153,18 @@ async def message_handler(message: types.Message) -> None:
                             chat_id=admin_id,
                             caption='\n'.join(texts),
                             parse_mode='HTML',
+                            reply_markup=builder.as_markup(),
                         )
                 else:
-                    await message.answer('Произошла ошибка в сохранении медиа файла, проверьте что это именно фото.')
+                    await bot.send_message(
+                        chat_id=message.chat.id,
+                        text='Произошла ошибка в сохранении медиа файла, проверьте что это именно фото.'
+                    )
             else:
-                await message.answer('Вы должны отправить фотографию чека')
+                await bot.send_message(
+                    chat_id=message.chat.id,
+                    text='Вы должны отправить фотографию чека.'
+                )
 
     except Exception as ex:
         print(ex)
