@@ -1,9 +1,9 @@
 import asyncio
-from aiogram import Bot
+from bot.run import bot
+
 
 class BotActionIndicator:
-    def __init__(self, bot: Bot, chat_id: int, delay: float = 5.0, action: str = 'typing'):
-        self.bot = bot
+    def __init__(self, chat_id: int, delay: float = 5.0, action: str = 'typing'):
         self.chat_id = chat_id
         self.delay = delay
         self.action = action
@@ -22,7 +22,7 @@ class BotActionIndicator:
     async def _send_chat_action(self):
         while True:
             try:
-                await self.bot.send_chat_action(chat_id=self.chat_id, action=self.action)
+                await bot.send_chat_action(chat_id=self.chat_id, action=self.action)
                 await asyncio.sleep(self.delay)
             except Exception:
                 break
