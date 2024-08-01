@@ -6,6 +6,7 @@ from aiogram import types
 from aiogram.types import FSInputFile, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.markdown import hlink, hpre
+from asgiref.sync import sync_to_async
 from django.contrib.auth import get_user_model
 from dateutil import parser
 
@@ -16,7 +17,7 @@ from main.models import Currency, Product, ProductCategory, Receipt
 
 
 async def parse_receipt(message: types.Message, image_path, image_name) -> bool | Receipt:
-    data = get_products_by_image(image_path)
+    data = await sync_to_async(get_products_by_image)(image_path)
 
     if not data:
         return False
