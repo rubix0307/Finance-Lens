@@ -3,8 +3,7 @@
 <div class="language">
     {# https://www.flaticon.com/packs/countrys-flags #}
     {% get_current_language as LANGUAGE_CODE %}
-    <img src="{% static 'img/language/'|add:LANGUAGE_CODE|add:'.png' %}" alt="">
-    
+
     <form action="{% url 'set_language' %}" method="post">
         {% csrf_token %}
         <input name="next" type="hidden" value="" />
@@ -16,4 +15,6 @@
             {% endfor %}
         </select>
     </form>
+
+    <img src="{% static 'img/language/'|add:LANGUAGE_CODE|add:'.png' %}" alt="">
 </div>
