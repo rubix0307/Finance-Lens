@@ -1,73 +1,82 @@
 * {
   font-family: Inter;
-  --color-orange: #ff680a;
+  --color-orange: #00000000;
   --color-orange-lite: rgb(255 134 55 / 10%);
-
 }
 
 body {
     margin: 0;
     padding: 0;
+    background-color: var(--tg-theme-secondary-bg-color);
 }
-
+main {
+    background-color: var(--tg-theme-secondary-bg-color);
+    padding: 0 10px;
+}
+.disabled-legend-item {
+    color: red !important;
+  }
 header {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    height: 50px;
-    padding: 0 10px 0 0;
-    background: var(--color-orange-lite);
+    padding: 20px;
+    font-size: 19px;
+    background-color: var(--tg-theme-section-bg-color);
+    color: var(--tg-theme-text-color);
+    font-weight: 600;
+    margin-bottom: 20px;
 
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
-
-    & .caption {
-        text-transform: uppercase;
-        font-weight: bold;
-        padding: 3px 7px 3px 17px;
-        color: #fff3eb;
-        background-color: var(--color-orange);
-        border-radius: 0 10px 10px 0;
-        position: absolute;
-        top: 12px;
-        left: 0;
-    }
-
-    & .language {
+    & .body {
+        width: 100%;
+        height: 19px;
         display: flex;
-        flex-direction: row-reverse;
         justify-content: space-between;
         align-items: center;
-        max-height: 100%;
 
-        & img {
-            height: 35px;
+        & .caption {
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+
+            & svg {
+                display: flex;
+                align-items: center;
+                width: 32px;
+                height: 100%;
+                stroke: var(--tg-theme-text-color);
+            }
         }
 
-        & select {
-            background-color: transparent;
-            border: none;
-            text-align: right;
-            outline: 0;
+        & .settings svg{
+            display: flex;
+            align-items: center;
+            width: 28px;
+            height: 100%;
+            fill: var(--tg-theme-text-color);
         }
     }
 }
 .receipt {
-    --background-color: #f7f5f5;
-
+    --background-color: var(--tg-theme-bg-color);
     width: 100%;
     max-width: 500px;
-    margin-bottom: 70px;
+    margin: 20px 0px;
+    padding: 10px 0;
+    border-radius: 20px;
+    color: var(--tg-theme-text-color);
     background-color: var(--background-color);
 
     & .menu {
         width: 90%;
-        margin: 0 auto;
+        margin: 0 auto 10px auto;
         display: flex;
         flex-direction:row;
         justify-content: end;
         background-color: var(--background-color);
         padding: 5px 0;
+        text-transform: uppercase;
+
+        & .del {
+            color: var(--tg-theme-destructive-text-color);
+        }
     }
     & .photo {
         width: 91%;
@@ -75,7 +84,6 @@ header {
         max-height: 30svh;
         overflow-y: scroll;
         border-radius: 2px;
-
         background-color: var(--background-color);
 
         &::-webkit-scrollbar {
@@ -94,9 +102,14 @@ header {
     & .product {
         width: 90%;
         margin: 0 auto;
-        border-bottom: 1px var(--color-orange) solid;
+        border-bottom: 1px var(--tg-theme-hint-color) solid;
         display: flex;
         background-color: var(--background-color);
+        padding-bottom: 10px;
+
+        &:last-of-type {
+            border-bottom: none;
+        }
 
         & .column {
             width: 100%;
@@ -110,6 +123,7 @@ header {
                 border: none;
                 outline: none;
                 font-size: 16px;
+                color: var(--tg-theme-text-color);
             }
             & .price {
                 & input {
@@ -123,6 +137,7 @@ header {
                 border: none;
                 appearance: none;
                 background-color: transparent;
+                color: var(--tg-theme-text-color);
             }
 
             &.price {
@@ -140,7 +155,9 @@ header {
 
     }
 
-    & button[type='submit'] {
+    &
+    button[type='submit'] {
+        display: none;
         width: 90%;
         margin: 0 5% 10px 5%;
         height: 30px;
@@ -158,6 +175,13 @@ header {
 #statistic-chart {
     width: 100%;
     height: min(70vh, 700px);
+    background-color: var(--tg-theme-bg-color);
+    padding: 25px 0;
+    border-radius: 20px;
+
+    & tspan {
+        color: red !important;
+    }
 }
 .anychart-credits {
     display: none;

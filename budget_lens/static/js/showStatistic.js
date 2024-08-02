@@ -22,14 +22,15 @@ async function drawStatisticChart(dataUrl, container, title) {
 
         // Create column chart
         var chart = anychart.column();
+        chart.background().fill("var(--tg-theme-bg-color)");
         chart.animation(true);
-        chart.padding(10, 5, 5, -2);
+        chart.padding(10, 5, 5, 5);
 
         chart.yAxis(true);
-        chart.yAxis().stroke('black', 1);
+        chart.yAxis().stroke('var(--tg-theme-hint-color)', 1);
         chart.yAxis().labels().format("${%Value}");
 
-        chart.xAxis().title('Month').stroke('black', 1);
+        chart.xAxis().title('Month').stroke('var(--tg-theme-hint-color)', 1);
         chart.xAxis().ticks().enabled(false);
 
         // Force chart to stack values by Y scale
@@ -53,13 +54,13 @@ async function drawStatisticChart(dataUrl, container, title) {
             .dataArea()
             .background()
             .enabled(true)
-            .fill('#f7f5f5')
+            .fill('var(--tg-theme-bg-color)')
             .corners(5, 5, 0, 0);
 
         // Set grid settings
         chart
             .xGrid()
-            .stroke('#fff .1')
+            .stroke('transperent .1')
             .isMinor(true)
             .drawFirstLine(false)
             .drawLastLine(false);
@@ -115,11 +116,13 @@ async function drawStatisticChart(dataUrl, container, title) {
         chart
             .legend()
             .enabled(true)
-            .fontSize(13)
-            .fontColor('#000000')
+            .fontSize(16)
+            .fontColor('var(--tg-theme-text-color);')
             .positionMode('inside')
             .margin({ top: 15 });
 
+        chart.legend().background('var(--tg-theme-bg-color)');
+        chart.legend().fontColor('var(--tg-theme-text-color)');
 
 
         chart.container(container);
