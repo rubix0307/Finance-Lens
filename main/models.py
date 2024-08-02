@@ -30,6 +30,13 @@ class Receipt(models.Model):
     def __str__(self):
         return self.shop_name
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['date'], name='idx_date'),
+            models.Index(fields=['owner'], name='idx_owner'),
+            models.Index(fields=['owner', 'date'], name='idx_owner_date')
+        ]
+
 class ProductCategory(models.Model):
     name = models.CharField(max_length=255)
 
@@ -78,3 +85,9 @@ class Product(models.Model):
 
     class Meta:
         ordering = ['id']
+
+        indexes = [
+            models.Index(fields=['price'], name='idx_price'),
+            models.Index(fields=['price_usd'], name='idx_price_usd'),
+            models.Index(fields=['category'], name='idx_category'),
+        ]

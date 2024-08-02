@@ -1,5 +1,7 @@
+import time
 from collections import defaultdict
 
+from django.contrib.auth import get_user_model
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
 
@@ -7,9 +9,10 @@ from main.models import ProductCategory, Receipt
 
 
 def get_user_statistic(user):
-    receipts = Receipt.objects.filter(date__isnull=False).annotate(
+
+    receipts = Receipt.objects.filter(owner=user, date__isnull=False).annotate(
         month=TruncMonth('date')
-    ).filter(owner=user).prefetch_related('products__category', 'currency').values(
+    ).prefetch_related('products__category', 'currency').values(
         'month',
         'products__category',
         'products__price_usd',
