@@ -196,7 +196,7 @@ header {
 }
 #statistic-chart {
     width: 100%;
-    height: min(70vh, 700px);
+    height: min(100vh, 700px);
     background-color: var(--tg-theme-bg-color);
     padding: 25px 0;
     border-radius: 20px;
