@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% load cache %}
 {% load i18n %}
 
 {% block main %}
-    <h1>{% trans 'forbidden.caption' %}</h1>
-    <p>{% trans 'forbidden.note' %}</p>
+    {% cache 600 page_403 %}
+        <h1>{% trans 'forbidden.caption' %}</h1>
+        <p>{% trans 'forbidden.note' %}</p>
+    {% endcache %}
 {% endblock %}
