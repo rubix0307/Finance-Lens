@@ -1,8 +1,10 @@
+{% load i18n %}
+
 <div id="settings-modal" class="modal">
 
     <div class="modal-content">
         <span class="close-modal">×</span>
-        <h2>Настройки</h2>
+        <h2>{% trans 'modal.setting.label' %}</h2>
         {% include 'inc/language.html' %}
     </div>
 
