@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-27 23:04+0200\n"
+"POT-Creation-Date: 2024-08-11 10:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,14 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\main\templates\main\index.html:15
+msgid "main.empty.caption"
+msgstr "Твой список чеков из магазинов пуст"
+
+#: .\main\templates\main\index.html:16
+msgid "main.empty.action"
+msgstr "Отправь фото чека в бот"
 
 #: .\main\templates\main\receipt\index.html:11
 msgid "receipt.menu.deletion"
@@ -41,20 +49,27 @@ msgstr "Обновлено!"
 msgid "receipt.save_btn_text"
 msgstr "Сохранить"
 
-#: .\main\templates\main\statistic\index.html:20
-msgid "statistic.total"
-msgstr "Всего"
-
 #: .\telegram_auth\templates\telegram_auth\check.html:5
 msgid "check_info"
 msgstr ""
 "Мы проведем проверку вашей учетной записи, после чего вы будете "
 "перенаправлены на другую страницу"
 
-#: .\templates\403.html:5
+#: .\templates\403.html:7
 msgid "forbidden.caption"
 msgstr "403"
 
-#: .\templates\403.html:6
+#: .\templates\403.html:8
 msgid "forbidden.note"
 msgstr "У вас нет прав доступа к этому ресурсу"
+
+#: .\templates\inc\header.html:7
+msgid "menu.label"
+msgstr "Меню"
+
+#: .\templates\inc\modal\settings.html:7
+msgid "modal.setting.label"
+msgstr "Настройки"
+
+#~ msgid "statistic.total"
+#~ msgstr "Всего"

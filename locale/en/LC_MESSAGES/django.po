@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-27 23:04+0200\n"
+"POT-Creation-Date: 2024-08-11 10:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\main\templates\main\index.html:15
+msgid "main.empty.caption"
+msgstr "Your list of store receipts is empty"
+
+#: .\main\templates\main\index.html:16
+msgid "main.empty.action"
+msgstr "Send a photo of the receipt to the bot"
 
 #: .\main\templates\main\receipt\index.html:11
 msgid "receipt.menu.deletion"
@@ -39,20 +47,27 @@ msgstr "Updated!"
 msgid "receipt.save_btn_text"
 msgstr "Save"
 
-#: .\main\templates\main\statistic\index.html:20
-msgid "statistic.total"
-msgstr "Total"
-
 #: .\telegram_auth\templates\telegram_auth\check.html:5
 msgid "check_info"
 msgstr ""
 "We do a verification of your account and then you will be redirected to "
 "another page"
 
-#: .\templates\403.html:5
+#: .\templates\403.html:7
 msgid "forbidden.caption"
 msgstr "403"
 
-#: .\templates\403.html:6
+#: .\templates\403.html:8
 msgid "forbidden.note"
 msgstr "You don't have permission to access this resource."
+
+#: .\templates\inc\header.html:7
+msgid "menu.label"
+msgstr "Menu"
+
+#: .\templates\inc\modal\settings.html:7
+msgid "modal.setting.label"
+msgstr "Setting"
+
+#~ msgid "statistic.total"
+#~ msgstr "Total"

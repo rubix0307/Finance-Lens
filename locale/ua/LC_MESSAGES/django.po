@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-27 23:04+0200\n"
+"POT-Creation-Date: 2024-08-11 10:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: .\main\templates\main\index.html:15
+msgid "main.empty.caption"
+msgstr "Твій список чеків із магазинів порожній"
+
+#: .\main\templates\main\index.html:16
+msgid "main.empty.action"
+msgstr "Надішли фото чека в бот"
 
 #: .\main\templates\main\receipt\index.html:11
 msgid "receipt.menu.deletion"
@@ -38,20 +46,27 @@ msgstr "Оновлено!"
 msgid "receipt.save_btn_text"
 msgstr "Зберегти"
 
-#: .\main\templates\main\statistic\index.html:20
-msgid "statistic.total"
-msgstr "Всього"
-
 #: .\telegram_auth\templates\telegram_auth\check.html:5
 msgid "check_info"
 msgstr ""
 "Ми перевіримо ваш обліковий запис, після чого ви будете перенаправлені на "
 "іншу сторінку"
 
-#: .\templates\403.html:5
+#: .\templates\403.html:7
 msgid "forbidden.caption"
 msgstr "403"
 
-#: .\templates\403.html:6
+#: .\templates\403.html:8
 msgid "forbidden.note"
 msgstr "Ви не маєте дозволу на доступ до цього ресурсу."
+
+#: .\templates\inc\header.html:7
+msgid "menu.label"
+msgstr "Mеню"
+
+#: .\templates\inc\modal\settings.html:7
+msgid "modal.setting.label"
+msgstr "Налаштування"
+
+#~ msgid "statistic.total"
+#~ msgstr "Всього"
