@@ -2,6 +2,7 @@ import json
 from datetime import datetime
 
 from functions import encode_image
+from main.models import ProductCategory
 from .config import client
 
 
@@ -18,12 +19,7 @@ def get_products_by_image(image_path):
         }
     ]
 
-
-    categories = ','.join(['Еда и напитки', 'Транспорт', 'Одежда', 'Лекарства и гигиена',
-                            'Образование', 'Домашние товары', 'Развлечения и досуг',
-                            'Путешествия', 'Связь и интернет', 'Домашние животные', 'Сигареты и табачные изделия',
-                           'Алкоголь', 'Электроника', 'Кредиты и займы',
-                            ])
+    categories = ', '.join(list(f'{c[0]}="{c[1]}"' for c in ProductCategory.objects.values_list('id', 'name')))
 
     messages = [
         {
@@ -39,9 +35,7 @@ def get_products_by_image(image_path):
                     '"name_ru": перевод name_original на русский, '
                     '"name_ua": перевод name_original на украинский, '
                     '"price": цена float, '
-                    '"category_en": категория товара на англ, '
-                    '"category_ru": категория товара на русский, '
-                    '"category_ua": категория товара на украинский '
+                    '"category_id": id категории из списка'
                 '}], '
                 '"shop_name": название заведения, где был выдан чек (если ее нет - null), '
                 '"shop_address": адрес заведения (если ее нет - null), '

@@ -54,18 +54,12 @@ async def parse_receipt(message: types.Message, image_path, image_name) -> bool 
     )
     await receipt.asave()
     products = []
-    for p in data.get('products',[]):
+    for p in data.get('products', []):
         try:
             try:
-                category = await ProductCategory.objects.aget(name_ru=p['category_ru'])
+                category = await ProductCategory.objects.aget(id=p['category_id'])
             except ProductCategory.DoesNotExist:
-                category = ProductCategory(
-                    name=p['category_ru'],
-                    name_en=p['category_en'],
-                    name_ru=p['category_ru'],
-                    name_ua=p['category_ua'],
-                )
-                await category.asave()
+                category = None
 
             product = Product(
                 name=p['name_original'].capitalize(),
