@@ -98,12 +98,16 @@ class Product(models.Model):
         super(Product, self).save(*args, **kwargs)
         return self
 
-    def get_usd_conversion_rate(self):
-        cache_key = f'{self.get_usd_conversion_rate.__name__}_{self.receipt.currency.code}_{self.receipt.date.strftime("%Y-%m-%d")}'
+    def update_or_create_product_price_base_rate(self):
+        currency = self.receipt.section.currency
+        price, currency = self.get_price_in_currency(currency=currency)
 
-        cached_rate = cache.get(cache_key)
-        if cached_rate is not None:
-            return cached_rate
+        product_price, is_created = ProductPrice.objects.update_or_create(
+            product=self,
+            currency=currency,
+            defaults={'price': price},
+        )
+        return product_price
 
     def get_price_in_currency(self, currency: Currency, use_date_filter: bool = True):
         try:
