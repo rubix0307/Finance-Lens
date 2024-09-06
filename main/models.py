@@ -1,8 +1,6 @@
 from decimal import Decimal
-
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.core.cache import cache
 from scraper.currency.scraper import CurrencyScraper
 
 
@@ -22,7 +20,6 @@ class CurrencyRateHistory(models.Model):
         return f'{self.id}: {self.per_usd}'
 
     class Meta:
-        # unique_together = ('currency', 'per_usd', 'date')
         get_latest_by = ['date']
 
 
