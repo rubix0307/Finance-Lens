@@ -60,6 +60,7 @@ class Receipt(models.Model):
     date = models.DateTimeField()
     photo = models.ImageField(upload_to='bot/', null=True, blank=True, max_length=1024)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True)
 
     # TODO Add ForeignKey to family group
 
