@@ -26,6 +26,33 @@ class CurrencyRateHistory(models.Model):
         get_latest_by = ['date']
 
 
+class Section(models.Model):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    currency = models.ForeignKey(Currency, on_delete=models.CASCADE, null=True, blank=True)
+    users = models.ManyToManyField(get_user_model(), through='SectionUser', related_name='sections', blank=True)
+
+
+class SectionUser(models.Model):
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    is_owner = models.BooleanField(default=False)
+    is_base = models.BooleanField(default=False)
+
+    @staticmethod
+    def set_base_section_for_user(user, section, **kwargs):
+        SectionUser.objects.filter(user=user, is_base=True).update(is_base=False)
+
+        section_user, _ = SectionUser.objects.update_or_create(
+            user=user,
+            section=section,
+            defaults={'is_base': True} | kwargs
+        )
+
+
+        return section_user
+
+
+
 class Receipt(models.Model):
     shop_name = models.CharField(max_length=255, null=True, blank=True)
     shop_address = models.CharField(max_length=1024, null=True, blank=True)
