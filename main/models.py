@@ -90,12 +90,19 @@ class Product(models.Model):
     receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE, related_name='products')
 
     def save(self, *args, **kwargs):
-        if not self.pk and not self.name_original:
+        is_new = None
+
+        if not self.pk:
+            is_new = True
+
+        if not self.name_original:
             self.name_original = self.name
 
-        self.price_usd = Decimal(self.price or 0) / (self.get_usd_conversion_rate() or Decimal(1))
-
         super(Product, self).save(*args, **kwargs)
+
+        if is_new:
+            self.update_or_create_product_price_base_rate()
+
         return self
 
     def update_or_create_product_price_base_rate(self):
