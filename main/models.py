@@ -62,8 +62,6 @@ class Receipt(models.Model):
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True)
 
-    # TODO Add ForeignKey to family group
-
     def __str__(self):
         return f'{self.shop_name}'
 
