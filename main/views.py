@@ -20,8 +20,6 @@ def get_section_stats(request):
 
 @login_required
 def index(request):
-    context = {}
-
     if request.method == 'POST':
 
         formset = ProductFormSet(request.POST)
@@ -37,6 +35,14 @@ def index(request):
             receipt.formset = formset
             return render(request, 'main/receipt/index.html', context={'receipt': receipt, 'is_updated': True})
     else:
+        section, *_ = SectionService.get_or_create_base_section_by_user(request.user)
+        url = reverse('section')
+        params = {
+            'id': section.id,
+        }
+        return redirect(f'{url}?{urlencode(params)}')
+
+
 @login_required
 def show_section(request):
     section = get_object_or_404(Section, id=request.GET.get('id'), sectionuser__user=request.user)
