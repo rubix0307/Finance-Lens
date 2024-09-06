@@ -78,26 +78,42 @@ class Product(models.Model):
         if cached_rate is not None:
             return cached_rate
 
-        rate = None
-        rate_date = None
-        receipt_rate_date = None
-
+    def get_price_in_currency(self, currency: Currency, use_date_filter: bool = True):
         try:
-            rate = CurrencyRateHistory.objects.filter(currency=self.receipt.currency, date=self.receipt.date).latest()
 
-            rate_date = (rate.date.year, rate.date.month, rate.date.day)
-            receipt_rate_date = (self.receipt.date.year, self.receipt.date.month, self.receipt.date.day)
+            if use_date_filter:
+                date_filter = {'date': self.receipt.date}
+            else:
+                date_filter = {}
+
+            rate_to_usd: CurrencyRateHistory = (
+                CurrencyRateHistory.objects
+                .filter(
+                    currency=self.receipt.currency,
+                    **date_filter
+                ).latest()
+            )
+            rate_to_currency: CurrencyRateHistory = (
+                CurrencyRateHistory.objects
+                .filter(
+                    currency=currency,
+                    date=rate_to_usd.date,
+                ).latest()
+            )
+
+            price_in_usd = Decimal(self.price) / Decimal(rate_to_usd.per_usd)
+            price_in_currency = price_in_usd * rate_to_currency.per_usd
+
+            return price_in_currency, currency
         except CurrencyRateHistory.DoesNotExist:
-            pass
-
-        if not rate or (rate_date != receipt_rate_date):
             scraper = CurrencyScraper(currency_symbol='USD', date=self.receipt.date)
-            scraper.write_rate_history()
+            rate_history = scraper.write_rate_history()
 
-            rate = CurrencyRateHistory.objects.filter(currency=self.receipt.currency).latest()
+            use_date_filter = False
+            if rate_history:
+                use_date_filter = True
+            return self.get_price_in_currency(currency=currency, use_date_filter=use_date_filter)
 
-        cache.set(cache_key, rate.per_usd, timeout=120)  # TODO update timeout
-        return rate.per_usd
 
     class Meta:
         ordering = ['id']
