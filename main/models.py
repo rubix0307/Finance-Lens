@@ -102,8 +102,11 @@ class Product(models.Model):
     class Meta:
         ordering = ['id']
 
-        # indexes = [
-        #     models.Index(fields=['price'], name='idx_price'),
-        #     models.Index(fields=['price_usd'], name='idx_price_usd'),
-        #     models.Index(fields=['category'], name='idx_category'),
-        # ]
+
+class ProductPrice(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='prices')
+    currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=20, decimal_places=2)
+
+    class Meta:
+        unique_together = ('product', 'currency')
