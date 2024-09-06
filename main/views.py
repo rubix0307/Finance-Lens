@@ -12,8 +12,9 @@ def permission_denied_view(request):
 
 
 @login_required
-def get_user_stats(request):
-    stats = get_user_statistic(request.user)
+def get_section_stats(request):
+    section = get_object_or_404(Section, id=request.GET.get('id'), sectionuser__user=request.user)
+    stats = get_section_statistic(section)
     return JsonResponse(stats, safe=False, json_dumps_params={'ensure_ascii': False, 'indent': 4})
 
 

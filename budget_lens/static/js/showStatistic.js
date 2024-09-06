@@ -11,8 +11,8 @@ async function drawStatisticChart(dataUrl, container, title) {
                 processedData.push({
                     month: item.month,
                     category: category,
-                    total_usd: categoryData.total_usd,
-                    currencies: categoryData.currencies
+                    total_base_currency: categoryData.total_base_currency,
+                    currencies: categoryData.currencies,
                 });
             }
         });
@@ -28,7 +28,7 @@ async function drawStatisticChart(dataUrl, container, title) {
 
         chart.yAxis(true);
         chart.yAxis().stroke('var(--tg-theme-hint-color)', 1);
-        chart.yAxis().labels().format("${%Value}");
+        chart.yAxis().labels().format("{%Value}");
 
         chart.xAxis().title('Month').stroke('var(--tg-theme-hint-color)', 1);
         chart.xAxis().ticks().enabled(false);
@@ -82,9 +82,10 @@ async function drawStatisticChart(dataUrl, container, title) {
                 var categoryData = item.categories[category];
                 seriesMapping[category].push({
                     x: item.month,
-                    value: categoryData.total_usd,
+                    value: categoryData.total_base_currency,
                     category: category,
-                    currencies: categoryData.currencies
+                    currencies: categoryData.currencies,
+                    base_currency: categoryData.base_currency,
                 });
             }
         });
@@ -98,10 +99,12 @@ async function drawStatisticChart(dataUrl, container, title) {
             // Set tooltips
             series.tooltip().format(function() {
                 var currencies = this.getData('currencies');
+                var baseCurrency = this.getData('base_currency');
                 var currencyText = Object.keys(currencies).map(function(key) {
                     return key + ": " + currencies[key];
                 }).join("\n");
-                return this.getData('category') + "\n" + currencyText + "\n------------"+ "\n" + `≈ $${this.value}`;
+                console.log(this)
+                return this.getData('category') + "\n" + currencyText + "\n------------"+ "\n" + `≈ ${this.value} ${baseCurrency}`;
             });
         }
 
