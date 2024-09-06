@@ -37,6 +37,15 @@ def index(request):
             receipt.formset = formset
             return render(request, 'main/receipt/index.html', context={'receipt': receipt, 'is_updated': True})
     else:
+@login_required
+def show_section(request):
+    section = get_object_or_404(Section, id=request.GET.get('id'), sectionuser__user=request.user)
+
+    context = {
+        'section': section,
+        'user_sections': request.user.sections.all(),
+    }
+    return render(request, 'main/index.html', context=context)
 
         receipts = Receipt.objects.filter(owner=request.user).order_by('-date', '-id').prefetch_related('products')[:100]
 
