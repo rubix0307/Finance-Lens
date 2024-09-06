@@ -86,7 +86,6 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     name_original = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=20, decimal_places=2)
-    price_usd = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, null=True, blank=True)
     receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE, related_name='products')
 
