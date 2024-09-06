@@ -33,7 +33,7 @@ def index(request):
 
             receipt = formset.cleaned_data[0]['id'].receipt
             receipt.formset = formset
-            return render(request, 'main/receipt/index.html', context={'receipt': receipt, 'is_updated': True})
+            return render(request, 'main/receipts/receipt.html', context={'receipt': receipt, 'is_updated': True})
     else:
         section, *_ = SectionService.get_or_create_base_section_by_user(request.user)
         url = reverse('section')
