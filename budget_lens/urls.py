@@ -24,12 +24,11 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('telegram-auth/', include('telegram_auth.urls')),
+    path('set_language/', set_language, name='set_language'),
     path('', include('main.urls')),
 ]
 
 urlpatterns += i18n_patterns(
-    path('set_language/', set_language, name='set_language'),
-    path('', include('main.urls')),
 )
 
 if settings.DEBUG:
