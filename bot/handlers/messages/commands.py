@@ -14,6 +14,7 @@ from bot.run import bot, dp
 from bot.utils.action import BotActionIndicator
 from GPT.functions import get_products_by_image
 from main.models import Currency, Product, ProductCategory, Receipt
+from main.services.section_service import SectionService
 
 
 async def parse_receipt(message: types.Message, image_path, image_name) -> bool | Receipt:
@@ -44,6 +45,7 @@ async def parse_receipt(message: types.Message, image_path, image_name) -> bool 
         date = today
 
 
+    section, *_ = await sync_to_async(SectionService.get_or_create_base_section_by_user)(user)
     receipt = Receipt(
         shop_name=data.get('shop_name'),
         shop_address=data.get('shop_address'),
@@ -51,6 +53,7 @@ async def parse_receipt(message: types.Message, image_path, image_name) -> bool 
         photo=f'bot/{image_name}',
         date=date,
         owner=user,
+        section=section,
     )
     await receipt.asave()
     products = []
