@@ -4,17 +4,5 @@
 
 {% block main %}
     {% include 'main/statistic/index.html' with statistic=monthly_expenses %}
-    {% if receipts %}
-
-        {% for receipt in receipts %}
-            {% include 'main/receipt/index.html' with receipt=receipt %}
-        {% endfor %}
-
-    {% else %}
-
-        <h2>{% trans 'main.empty.caption' %}</h2>
-        <span>{% trans 'main.empty.action' %}</span>
-
-    {% endif %}
-
+    <div class="feed" hx-get="{% url 'feed' %}?id={{ section.id }}" hx-trigger="load"></div>
 {% endblock %}

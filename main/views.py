@@ -53,14 +53,21 @@ def show_section(request):
     }
     return render(request, 'main/index.html', context=context)
 
-        receipts = Receipt.objects.filter(owner=request.user).order_by('-date', '-id').prefetch_related('products')[:100]
 
-        for receipt in receipts:
-            receipt.formset = ProductFormSet(queryset=receipt.products.all())
+@login_required
+def show_feed(request):
+    section = get_object_or_404(Section, id=request.GET.get('id'), sectionuser__user=request.user)
+    receipts = Receipt.objects.filter(section=section).order_by('-date', '-id').prefetch_related('products')[:100]
 
-        context['receipts'] = receipts
+    for receipt in receipts:
+        receipt.formset = ProductFormSet(queryset=receipt.products.all())
 
-    return render(request, 'main/index.html', context=context)
+    context = {
+        'section': section,
+        'receipts': receipts,
+    }
+    return render(request, 'main/receipts/index.html', context=context)
+
 
 
 @login_required
