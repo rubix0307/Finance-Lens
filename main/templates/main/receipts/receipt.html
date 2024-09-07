@@ -20,9 +20,11 @@
         </div>
     </div>
 
-    <div class="photo">
-          <img src="{{ receipt.photo.url }}" alt="Receipt Photo">
-    </div>
+    {% if receipt.photo %}
+        <div class="photo">
+              <img src="{{ receipt.photo.url }}" alt="Receipt Photo" loading="lazy">
+        </div>
+    {% endif %}
 
     <form method="post" hx-post="{% url 'index' %}" hx-target="#receipt-{{ receipt.id }}" hx-swap="outerHTML">
         {% csrf_token %}
