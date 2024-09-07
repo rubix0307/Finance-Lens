@@ -6,7 +6,7 @@ from .models import Product, CurrencyRateHistory, ProductCategory, Receipt
 # Register your models here.
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'get_currency_code', 'price', 'price_usd', 'get_category')
+    list_display = ('id', 'name', 'get_currency_code', 'price', 'get_category')
     list_filter = ('category',)
 
     def get_currency_code(self, obj):
