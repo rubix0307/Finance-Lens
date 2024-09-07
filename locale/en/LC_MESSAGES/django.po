@@ -67,7 +67,7 @@ msgstr "Menu"
 
 #: .\templates\inc\modal\settings.html:7
 msgid "modal.setting.label"
-msgstr "Setting"
+msgstr "Settings"
 
 #~ msgid "statistic.total"
 #~ msgstr "Total"
