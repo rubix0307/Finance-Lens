@@ -1,10 +1,15 @@
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
-from django.contrib.auth.decorators import login_required
+import datetime
+from urllib.parse import urlencode
 
-from .models import Receipt
+from django.contrib.auth import login
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+from .models import Receipt, Section
 from .forms import ProductFormSet
-from .statistic import get_user_statistic
+from .services.section_service import SectionService
+from .statistic import get_section_statistic
 
 
 def permission_denied_view(request):
