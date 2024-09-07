@@ -28,6 +28,12 @@ class Section(models.Model):
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE, null=True, blank=True)
     users = models.ManyToManyField(get_user_model(), through='SectionUser', related_name='sections', blank=True)
 
+    def update_receipts_price(self):
+        receipts = Receipt.objects.filter(section=self)
+
+        for receipt in receipts:
+            receipt.update_price()
+
 
 class SectionUser(models.Model):
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
@@ -58,6 +64,11 @@ class Receipt(models.Model):
     photo = models.ImageField(upload_to='bot/', null=True, blank=True, max_length=1024)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True)
+
+    def update_price(self):
+        products = Product.objects.filter(receipt=self)
+        for product in products:
+            product.update_or_create_product_price_base_rate()
 
     def __str__(self):
         return f'{self.shop_name}'
