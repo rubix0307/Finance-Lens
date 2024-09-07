@@ -2,5 +2,5 @@
 <div id="statistic-chart"></div>
 
 <script>
-    drawStatisticChart("{% url 'get_user_stats' %}", container='statistic-chart')
+    drawStatisticChart("{% url 'get_section_stats' %}?id={{ section.id }}", container='statistic-chart')
 </script>
