@@ -1,0 +1,17 @@
+{% load i18n %}
+<div class="receipts">
+    <div class="list">
+        {% if receipts %}
+
+            {% for receipt in receipts %}
+                {% include 'main/receipts/receipt.html' with receipt=receipt %}
+            {% endfor %}
+
+        {% endif %}
+    </div>
+
+    <div class="empty">
+        <h2>{% trans 'main.empty.caption' %}</h2>
+        <span>{% trans 'main.empty.action' %}</span>
+    </div>
+</div>

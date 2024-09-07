@@ -31,7 +31,7 @@
         {{ receipt.formset.management_form }}
         <div class="products-list">
             {% for form in receipt.formset %}
-                {% include 'main/receipt/product_form.html' with product_form=form %}
+                {% include 'main/receipts/product_form.html' with product_form=form %}
             {% endfor %}
         </div>
         <div class="product">
