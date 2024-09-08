@@ -4,6 +4,7 @@
     {% include 'inc/head.html'%}
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     {% include 'inc/header.html'%}
+    {% include 'inc/messages.html'%}
 
     <main>
         {% block main %}{% endblock %}
