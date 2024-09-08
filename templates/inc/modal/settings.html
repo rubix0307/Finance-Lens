@@ -5,7 +5,15 @@
     <div class="modal-content">
         <span class="close-modal">×</span>
         <h2>{% trans 'modal.setting.label' %}</h2>
-        {% include 'inc/language.html' %}
-    </div>
 
+        <div class="block">
+            {% include 'inc/language.html' %}
+        </div>
+
+        {% if currency_form %}
+            <div class="block">
+                {% include 'inc/currency_form.html' %}
+            </div>
+        {% endif %}
+    </div>
 </div>

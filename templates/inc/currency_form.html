@@ -1,0 +1,11 @@
+<form action="{% url 'change_currency' %}?id={{ section.id }}" method="post" class="currency-form">
+    {% csrf_token %}
+    <label for="{{ currency_form.currency.auto_id }}">{{ currency_form.currency.label }}</label>
+
+    <div class="select">
+
+        {{ currency_form.currency }}
+    </div>
+
+    <input type="submit" value="Обновить" class="default-tg-border">
+</form>

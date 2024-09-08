@@ -4,10 +4,11 @@ from urllib.parse import urlencode
 from django.contrib.auth import login
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .models import Receipt, Section
-from .forms import ProductFormSet
+from .forms import ProductFormSet, SectionCurrencyForm
 from .services.section_service import SectionService
 from .statistic import get_section_statistic
 
@@ -51,10 +52,14 @@ def index(request):
 @login_required
 def show_section(request):
     section = get_object_or_404(Section, id=request.GET.get('id'), sectionuser__user=request.user)
-
+    currency_form = SectionCurrencyForm(
+        initial_currency=section.currency,
+        currency_label='Валюта секции',
+    )
     context = {
         'section': section,
         'user_sections': request.user.sections.all(),
+        'currency_form': currency_form,
     }
     return render(request, 'main/index.html', context=context)
 
@@ -74,6 +79,39 @@ def show_feed(request):
     return render(request, 'main/receipts/index.html', context=context)
 
 
+
+@login_required
+def change_currency(request):
+    section = get_object_or_404(
+        Section,
+        id=request.GET.get('id'),
+        sectionuser__user=request.user,
+        sectionuser__is_owner=True,
+    )
+
+    if request.method == 'POST':
+        form = SectionCurrencyForm(request.POST)
+        is_valid = form.is_valid()
+        new_currency = form.cleaned_data.get('currency')
+
+        if is_valid and new_currency:
+            section.currency = new_currency
+            section.save()
+
+            section.update_receipts_price()
+
+            messages.success(request, 'Валюта успешно обновлена')
+        else:
+            messages.error(request, 'Валюта не была обновлена')
+
+        url = reverse('section')
+        params = {
+            'id': section.id,
+        }
+        return redirect(f'{url}?{urlencode(params)}')
+
+    messages.error(request, 'Запрос на обновление валюты был отклонен')
+    return redirect('index')
 
 @login_required
 def delete_receipt(request, receipt_id):
