@@ -14,6 +14,9 @@
     --tg-theme-subtitle-text-color: #82868a;
     --tg-theme-destructive-text-color: #cc2929;
     --tg-theme-section-separator-color: #d9d9d9;
+
+    --green-color: #70b768;
+    --danger-color: #df3f40;
 }
 
 * {
@@ -27,6 +30,7 @@ body {
     background-color: var(--tg-theme-secondary-bg-color);
 }
 main {
+    margin-top: 20px;
     background-color: var(--tg-theme-secondary-bg-color);
     padding: 0 10px;
 }
@@ -39,7 +43,6 @@ header {
     background-color: var(--tg-theme-section-bg-color);
     color: var(--tg-theme-text-color);
     font-weight: 600;
-    margin-bottom: 20px;
 
     & .body {
         width: 100%;
@@ -279,6 +282,13 @@ header {
         border: 1px solid var(--tg-theme-hint-color);
         border-radius: 20px;
         background-color: var(--tg-theme-bg-color);
+
+        .block {
+            margin-bottom: 20px;
+            &:last-child {
+                margin-bottom: 0px;
+            }
+        }
     }
 
     .close-modal {
@@ -301,22 +311,52 @@ header {
 .language {
     display: flex;
     flex-direction: row;
-    height: 25px;
 
-    & img {
-       height: 100%;
-        margin-left: 10px;
+    & .select {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        & img {
+            height: 20px;
+            margin-left: 10px;
+            border-radius: 100%;
+            border: 1px solid var(--tg-theme-hint-color);
+        }
+        & select {
+            height: 100%;
+            padding: 2px 10px;
+            color: var(--tg-theme-text-color);
+            background-color: var(--tg-theme-bg-color);
+        }
     }
-    & select {
-        height: 100%;
-        padding: 2px 10px;
-        border-radius: 10px;
-        color: var(--tg-theme-text-color);
-        background-color: var(--tg-theme-hint-color);
-    }
+
 
 }
+.currency-form {
+    width: fit-content;
 
+    & select {
+        width: 100%;
+        height: 100%;
+        padding: 2px 10px;
+        color: var(--tg-theme-text-color);
+        background-color: var(--tg-theme-bg-color);
+    }
+
+    & input[type="submit"] {
+        width: 100%;
+        height: 100%;
+        padding: 2px 10px;
+
+        color: var(--tg-theme-text-color);
+        background-color: var(--tg-theme-button-color);
+        margin-top: 5px;
+        height: 25px;
+        text-transform: uppercase;
+    }
+}
 
 
 .receipts {
@@ -343,3 +383,31 @@ header {
 }
 
 
+
+
+.default-tg-border {
+    border-radius: 10px;
+    border: 1px solid var(--tg-theme-hint-color);
+}
+
+.messages {
+    margin: 0 0 0 -10px;
+    padding-left: 10px;
+    & li {
+        display: flex;
+        align-items: center;
+        height: 30px;
+        padding-left: 20px;
+
+        &.success {
+            color: var(--tg-theme-text-color);
+            background-color: var(--green-color);
+        }
+        &.error {
+            color: var(--tg-theme-text-color);
+            background-color: var(--danger-color);
+        }
+
+    }
+
+}
