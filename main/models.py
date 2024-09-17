@@ -27,11 +27,17 @@ class Section(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     users = models.ManyToManyField(get_user_model(), through='SectionUser', related_name='sections', blank=True)
 
-    def update_receipts_price(self):
-        receipts = Receipt.objects.filter(section=self)
+    def get_user_currency(self, user):
+        return SectionUser.objects.get(section=self, user=user).currency
 
-        for receipt in receipts:
-            receipt.update_price()
+    def set_user_currency(self, user, currency) -> bool:
+        try:
+            section_user = SectionUser.objects.get(section=self, user=user)
+            section_user.currency = currency
+            section_user.save()
+        except SectionUser.DoesNotExists:
+            return False
+        return True
 
 
 class SectionUser(models.Model):
