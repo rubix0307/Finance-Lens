@@ -20,7 +20,8 @@ def permission_denied_view(request):
 @login_required
 def get_section_stats(request):
     section = get_object_or_404(Section, id=request.GET.get('id'), sectionuser__user=request.user)
-    stats = get_section_statistic(section)
+    currency = section.get_user_currency(request.user)
+    stats = get_section_statistic(section, currency)
     return JsonResponse(stats, safe=False, json_dumps_params={'ensure_ascii': False, 'indent': 4})
 
 
@@ -53,7 +54,7 @@ def index(request):
 def show_section(request):
     section = get_object_or_404(Section, id=request.GET.get('id'), sectionuser__user=request.user)
     currency_form = SectionCurrencyForm(
-        initial_currency=section.currency,
+        initial_currency=section.get_user_currency(request.user),
         currency_label='Валюта секции',
     )
     context = {
@@ -95,12 +96,8 @@ def change_currency(request):
         new_currency = form.cleaned_data.get('currency')
 
         if is_valid and new_currency:
-            section.currency = new_currency
-            section.save()
-
-            section.update_receipts_price()
-
-            messages.success(request, 'Валюта успешно обновлена')
+            section.set_user_currency(user=request.user, currency=new_currency)
+            messages.success(request, f'Валюта успешно обновлена')
         else:
             messages.error(request, 'Валюта не была обновлена')
 
@@ -112,6 +109,7 @@ def change_currency(request):
 
     messages.error(request, 'Запрос на обновление валюты был отклонен')
     return redirect('index')
+
 
 @login_required
 def delete_receipt(request, receipt_id):
