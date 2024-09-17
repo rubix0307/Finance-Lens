@@ -1,3 +1,4 @@
+from datetime import timedelta
 from decimal import Decimal
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -71,13 +72,22 @@ class Receipt(models.Model):
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True)
 
-    def update_price(self):
-        products = Product.objects.filter(receipt=self)
-        for product in products:
-            product.update_or_create_product_price_base_rate()
-
     def __str__(self):
         return f'{self.shop_name}'
+
+    def save(self, *args, **kwargs):
+        try:
+            rate_count = CurrencyRateHistory.objects.filter(date=self.date).count()
+            if not rate_count:
+                for i in range(3):
+                    date = self.date - timedelta(days=i)
+                    scraper = CurrencyScraper(currency_symbol='USD', date=date)
+                    rate_history = scraper.write_rate_history()
+
+                    if rate_history:
+                        break
+        finally:
+            return super(Receipt, self).save(*args, **kwargs)
 
     class Meta:
         indexes = [
@@ -112,67 +122,10 @@ class Product(models.Model):
 
         super(Product, self).save(*args, **kwargs)
 
-        if is_new:
-            self.update_or_create_product_price_base_rate()
-
         return self
 
-    def update_or_create_product_price_base_rate(self):
-        currency = self.receipt.section.currency
-        price, currency = self.get_price_in_currency(currency=currency)
-
-        product_price, is_created = ProductPrice.objects.update_or_create(
-            product=self,
-            currency=currency,
-            defaults={'price': price},
-        )
-        return product_price
-
-    def get_price_in_currency(self, currency: Currency, use_date_filter: bool = True):
-        try:
-
-            if use_date_filter:
-                date_filter = {'date': self.receipt.date}
-            else:
-                date_filter = {}
-
-            rate_to_usd: CurrencyRateHistory = (
-                CurrencyRateHistory.objects
-                .filter(
-                    currency=self.receipt.currency,
-                    **date_filter
-                ).latest()
-            )
-            rate_to_currency: CurrencyRateHistory = (
-                CurrencyRateHistory.objects
-                .filter(
-                    currency=currency,
-                    date=rate_to_usd.date,
-                ).latest()
-            )
-
-            price_in_usd = Decimal(self.price) / Decimal(rate_to_usd.per_usd)
-            price_in_currency = price_in_usd * rate_to_currency.per_usd
-
-            return price_in_currency, currency
-        except CurrencyRateHistory.DoesNotExist:
-            scraper = CurrencyScraper(currency_symbol='USD', date=self.receipt.date)
-            rate_history = scraper.write_rate_history()
-
-            use_date_filter = False
-            if rate_history:
-                use_date_filter = True
-            return self.get_price_in_currency(currency=currency, use_date_filter=use_date_filter)
 
 
     class Meta:
         ordering = ['id']
 
-
-class ProductPrice(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='prices')
-    currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=20, decimal_places=2)
-
-    class Meta:
-        unique_together = ('product', 'currency')
