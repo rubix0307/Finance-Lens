@@ -39,6 +39,7 @@ class CurrencyScraper:
         }
 
     def get_raw_data(self) -> list[RawCurrencyData] | list:
+        # TODO cache
         response = requests.get(url=self.url, params=self.params, headers=self.headers)
 
         if response.status_code != 200:
