@@ -25,7 +25,6 @@ class CurrencyRateHistory(models.Model):
 
 class Section(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
-    currency = models.ForeignKey(Currency, on_delete=models.CASCADE, null=True, blank=True)
     users = models.ManyToManyField(get_user_model(), through='SectionUser', related_name='sections', blank=True)
 
     def update_receipts_price(self):
@@ -40,6 +39,7 @@ class SectionUser(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     is_owner = models.BooleanField(default=False)
     is_base = models.BooleanField(default=False)
+    currency = models.ForeignKey(Currency, on_delete=models.CASCADE, null=True, blank=True)
 
     @staticmethod
     def set_base_section_for_user(user, section, **kwargs):
