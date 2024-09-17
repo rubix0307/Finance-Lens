@@ -18,13 +18,12 @@ class SectionService:
                 sectionuser__is_base=True,
             )
             is_created = False
-        except SectionUser.DoesNotExist:
+        except Section.DoesNotExist:
             currency, _ = Currency.objects.get_or_create(code=default_currency_code)
             section = Section.objects.create(
                 name=default_section_name,
-                currency=currency,
             )
-            section_user = SectionUser.set_base_section_for_user(user=user, section=section, is_owner=True)
+            section_user = SectionUser.set_base_section_for_user(user=user, section=section, is_owner=True, currency=currency,)
             is_created = True
 
         return section, is_created
