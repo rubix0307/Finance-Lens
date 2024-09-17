@@ -11,7 +11,7 @@ async function drawStatisticChart(dataUrl, container, title) {
                 processedData.push({
                     month: item.month,
                     category: category,
-                    total_base_currency: categoryData.total_base_currency,
+                    selected_currency_total_price: categoryData.selected_currency_total_price,
                     currencies: categoryData.currencies,
                 });
             }
@@ -82,10 +82,10 @@ async function drawStatisticChart(dataUrl, container, title) {
                 var categoryData = item.categories[category];
                 seriesMapping[category].push({
                     x: item.month,
-                    value: categoryData.total_base_currency,
+                    value: categoryData.selected_currency_total_price,
                     category: category,
                     currencies: categoryData.currencies,
-                    base_currency: categoryData.base_currency,
+                    base_currency: item.base_currency,
                 });
             }
         });
