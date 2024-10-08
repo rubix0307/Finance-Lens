@@ -9,6 +9,7 @@ from aiogram.utils.markdown import hlink, hpre
 from asgiref.sync import sync_to_async
 from django.contrib.auth import get_user_model
 from dateutil import parser
+from django.utils import timezone
 
 from bot.run import bot, dp
 from bot.utils.action import BotActionIndicator
@@ -44,6 +45,7 @@ async def parse_receipt(message: types.Message, image_path, image_name) -> bool 
     if date > today:
         date = today
 
+    date = timezone.make_aware(date, timezone.get_default_timezone())
 
     section, *_ = await sync_to_async(SectionService.get_or_create_base_section_by_user)(user)
     receipt = Receipt(
