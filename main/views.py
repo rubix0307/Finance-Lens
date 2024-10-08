@@ -2,11 +2,15 @@ import datetime
 from urllib.parse import urlencode
 
 from django.contrib.auth import login
+from django.db.models.functions import TruncMonth
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.utils import timezone
+
+from user.models import CustomUser
 from .models import Receipt, Section
 from .forms import ProductFormSet, SectionCurrencyForm
 from .services.section_service import SectionService
@@ -21,7 +25,12 @@ def permission_denied_view(request):
 def get_section_stats(request):
     section = get_object_or_404(Section, id=request.GET.get('id'), sectionuser__user=request.user)
     currency = section.get_user_currency(request.user)
-    stats = get_section_statistic(section, currency)
+    stats = get_section_statistic(
+        section,
+        currency,
+        month=request.GET.get('month'),
+        year=request.GET.get('year'),
+    )
     return JsonResponse(stats, safe=False, json_dumps_params={'ensure_ascii': False, 'indent': 4})
 
 

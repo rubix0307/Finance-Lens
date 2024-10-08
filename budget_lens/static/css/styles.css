@@ -213,12 +213,26 @@ header {
         }
     }
 }
-#statistic-chart {
-    width: 100%;
-    height: min(100vh, 700px);
+
+#statistic-chart,
+#month-chart,
+#month-chart-place {
     background-color: var(--tg-theme-bg-color);
     padding: 25px 0;
     border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+#month-chart-place {
+    & #month-chart {
+        padding: 0;
+    }
+}
+
+#statistic-chart,
+#month-chart {
+    width: 100%;
+    height: min(100vh, 700px);
 
     & tspan {
         color: red !important;
@@ -231,6 +245,8 @@ header {
 .anychart-credits {
     display: none;
 }
+
+
 
 @keyframes backgroundColorChange {
   0% {
@@ -410,4 +426,34 @@ header {
 
     }
 
+}
+
+.month-switcher {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--tg-theme-text-color);
+
+    & .arrow-button {
+        border: none;
+        background-color: #007BFF;
+        color: var(--tg-theme-text-color);
+        padding: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+        transition: opacity 0.3s;
+    }
+
+    & .arrow-button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    & .month-display {
+        font-size: 20px;
+        white-space: nowrap;
+        max-width: max-content;
+    }
 }

@@ -3,8 +3,8 @@ from django.db import connection
 
 
 
-def get_section_statistic(section, currency):
-
+def get_section_statistic(section, currency, month: int = None, year: int = None):
+    month_filter = f"WHERE month = '{year}-{'0' if int(month) < 10 else ''}{month}'" if month and year else ''
     query = f'''
         WITH product_prices_with_currency AS (
         SELECT
@@ -65,6 +65,7 @@ def get_section_statistic(section, currency):
                 GROUP BY month, category_name
                 HAVING category_name IS NOT NULL
         ) AS subquery
+        {month_filter}
         GROUP BY month;
 
     '''

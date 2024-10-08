@@ -1,0 +1,27 @@
+{% load section_tags %}
+{% get_available_months section.id as dates %}
+
+{% if dates %}
+    <div id="month-chart-place">
+
+        <div class="month-switcher">
+            <button id="prev" class="arrow-button" onclick="changeMonth(-1)" disabled>&larr;</button>
+            {% for d in dates %}
+
+                <span
+                    class="month-display"
+                    style="display: none;"
+                    data-month="{{ d.month }}"
+                    data-year="{{ d.year }}"
+                    hx-post="/get-stats?id={{ section.id }}&month={{ d.month }}&year={{ d.year }}"
+                    hx-target="#month-chart"
+                >{{ d|date:"F" }} {{ d.year }}</span>
+
+            {% endfor %}
+
+            <button id="next" class="arrow-button" onclick="changeMonth(1)">&rarr;</button>
+        </div>
+
+        <div id="month-chart"></div>
+    </div>
+{% endif %}
